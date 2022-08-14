@@ -11,14 +11,31 @@ export default [
     component: RouterView,
     children: [
       {
+        path: '',
+        redirect: {
+          name: 'Home',
+        },
+      },
+      {
         path: 'create',
         name: 'NoteCreate',
         component: () => import('@/views/note/note-create.vue'),
       },
       {
         path: ':id',
-        name: 'NoteDetail',
-        component: () => import('@/views/note/note-detail.vue'),
+        component: RouterView,
+        children: [
+          {
+            path: '',
+            name: 'NoteDetail',
+            component: () => import('@/views/note/note-detail.vue'),
+          },
+          {
+            path: 'edit',
+            name: 'NoteEdit',
+            component: () => import('@/views/note/note-edit.vue'),
+          },
+        ],
       },
     ],
   },

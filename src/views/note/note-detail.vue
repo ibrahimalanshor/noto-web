@@ -16,7 +16,10 @@ import { noteHelper } from '@/helpers';
         <span>13/05/2003</span>
       </div>
       <div class="space-x-2">
-        <router-link :to="{ name: 'Home' }" v-slot="{ navigate }">
+        <router-link
+          :to="{ name: 'NoteEdit', params: { id: 1 } }"
+          v-slot="{ navigate }"
+        >
           <base-button color="primary" v-on:click="navigate">Edit</base-button>
         </router-link>
         <router-link :to="{ name: 'Home' }" v-slot="{ navigate }">
