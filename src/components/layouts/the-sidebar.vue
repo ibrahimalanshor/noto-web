@@ -1,4 +1,5 @@
 <script setup>
+import { ref, watch } from 'vue';
 import { Icon } from '@vicons/utils';
 import {
   Notebook as AllNoteIcon,
@@ -9,6 +10,7 @@ import {
 } from '@vicons/carbon';
 import { SidebarItem } from './sidebars';
 import { useSidebar } from '@/store';
+import { useRoute } from 'vue-router';
 
 const items = [
   {
@@ -29,6 +31,7 @@ const items = [
   },
 ];
 
+const route = useRoute();
 const sidebar = useSidebar();
 
 const handleClickCollapse = () => {
@@ -37,10 +40,14 @@ const handleClickCollapse = () => {
 const handleClickOutside = (e) => {
   const sidebarToggle = document.getElementById('sidebar-toggle');
 
-  if (!sidebarToggle.contains(e.target)) {
+  if (sidebarToggle && !sidebarToggle.contains(e.target)) {
     sidebar.hide();
   }
 };
+
+watch(route, () => {
+  sidebar.hide();
+});
 </script>
 
 <template>
