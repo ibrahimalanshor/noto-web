@@ -6,6 +6,10 @@ const props = defineProps({
   label: {
     type: String,
   },
+  active: {
+    type: Boolean,
+    default: false,
+  },
 });
 </script>
 
@@ -13,7 +17,8 @@ const props = defineProps({
   <li>
     <a
       href="#"
-      class="flex items-center p-2 text-base font-normal text-white rounded-lg dark:text-white hover:bg-white hover:text-gray-900 dark:hover:bg-gray-700"
+      class="flex items-center p-2 text-base font-normal rounded-lg dark:text-white hover:bg-white hover:text-gray-900 dark:hover:bg-gray-700"
+      :class="[props.active ? 'bg-white text-gray-900' : 'text-white']"
     >
       <icon size="16">
         <component :is="props.icon" />
