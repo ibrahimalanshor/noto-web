@@ -1,19 +1,12 @@
 <script setup>
 import { LayoutApp } from '@/layouts';
-import { BaseInput, BaseButton } from '@/components/base';
+import { HeaderMenu } from '@/components/layouts/headers';
 </script>
 
 <template>
   <layout-app>
     <div class="p-5 border-b">
-      <div class="flex space-x-4 mb-4">
-        <div class="flex-grow">
-          <base-input placeholder="Search Todo" />
-        </div>
-        <div>
-          <base-button label="New Note" block />
-        </div>
-      </div>
+      <header-menu />
       <h1 class="font-bold text-3xl text-gray-900">All Notes</h1>
     </div>
     <div>
