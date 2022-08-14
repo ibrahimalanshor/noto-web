@@ -15,6 +15,11 @@ export default [
         name: 'NoteCreate',
         component: () => import('@/views/note/note-create.vue'),
       },
+      {
+        path: ':id',
+        name: 'NoteDetail',
+        component: () => import('@/views/note/note-detail.vue'),
+      },
     ],
   },
 ];
