@@ -24,7 +24,9 @@ const handleClickMenu = () => {
         <base-input placeholder="Search Todo" />
       </div>
       <div>
-        <base-button label="New Note" block />
+        <router-link :to="{ name: 'NoteCreate' }" v-slot="{ navigate }">
+          <base-button label="New Note" v-on:click="navigate" block />
+        </router-link>
       </div>
     </div>
   </div>
