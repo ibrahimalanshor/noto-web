@@ -1,6 +1,40 @@
 <script setup>
 import { LayoutApp } from '@/layouts';
 import { HeaderMenu } from '@/components/layouts/headers';
+import { NoteItem } from '@/components/note';
+
+const notes = [
+  {
+    id: 1,
+    tag: {
+      color: 'primary',
+      name: 'Diary',
+    },
+    createdAt: null,
+    title: 'Tailwind CSS Badges - Flowbite',
+    content:
+      'The badge component can be used to complement other elements such as buttons or text elements as a label or to show the count of a given data, such as the number of comments for an article or how much time has passed by since a comment has been made.',
+  },
+  {
+    id: 2,
+    tag: null,
+    createdAt: new Date(),
+    title: 'Feature preview',
+    content:
+      'Quickly navigate and jump between your organizations or repositories and search recent issues, pull requests, projects and more with the new command palette. You can also execute time saving commands all without lifting your fingers off the keyboard!',
+  },
+  {
+    id: 3,
+    tag: {
+      color: 'danger',
+      name: 'Logs',
+    },
+    createdAt: new Date(),
+    title: 'Reactivity for Arrays & Objects in Vue vs. Svelte',
+    content:
+      'Teleport is a new feature introduced in Vue 3. Teleport provides better control to developers on where exactly an element is rendered. Get Teleporting Let us create a new Vue 3 app to start playing around with teleport. We will use Vite, because it is 2021. 1 npm init @vitejs/app Provide a project name (teleport) and select vue as the template.Teleport is a new feature introduced in Vue 3. Teleport provides better control to developers on where exactly an element is rendered. Get Teleporting Let us create a new Vue 3 app to start playing around with teleport. We will use Vite, because it is 2021. 1 npm init @vitejs/app Provide a project name (teleport) and select vue as the template.Teleport is a new feature introduced in Vue 3. Teleport provides better control to developers on where exactly an element is rendered. Get Teleporting Let us create a new Vue 3 app to start playing around with teleport. We will use Vite, because it is 2021. 1 npm init @vitejs/app Provide a project name (teleport) and select vue as the template.Teleport is a new feature introduced in Vue 3. Teleport provides better control to developers on where exactly an element is rendered. Get Teleporting Let us create a new Vue 3 app to start playing around with teleport. We will use Vite, because it is 2021. 1 npm init @vitejs/app Provide a project name (teleport) and select vue as the template.',
+  },
+];
 </script>
 
 <template>
@@ -10,54 +44,7 @@ import { HeaderMenu } from '@/components/layouts/headers';
       <h1 class="font-bold text-3xl text-gray-900">All Notes</h1>
     </div>
     <div>
-      <div class="border-b p-5 border-gray-200 hover:bg-gray-100">
-        <div class="flex justify-between text-sm text-gray-600 mb-1">
-          <div class="flex items-center space-x-2">
-            <div class="w-3 h-3 rounded-full bg-blue-600"></div>
-            <span>General</span>
-          </div>
-          <time>13/05/2003</time>
-        </div>
-        <h2 class="font-bold text-lg text-gray-900 mb-1">Shopping List</h2>
-        <div class="text-gray-700 leading-loose">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque
-          dolores earum, reprehenderit consectetur cupiditate numquam corporis
-          ex, laboriosam ad labore aut consequatur minima quasi facere accusamus
-          maxime, sapiente incidunt blanditiis.
-        </div>
-      </div>
-      <div class="border-b p-5 border-gray-200 hover:bg-gray-100">
-        <div class="flex justify-between text-sm text-gray-600 mb-1">
-          <div class="flex items-center space-x-2">
-            <div class="w-3 h-3 rounded-full bg-blue-600"></div>
-            <span>General</span>
-          </div>
-          <time>13/05/2003</time>
-        </div>
-        <h2 class="font-bold text-lg text-gray-900 mb-1">Shopping List</h2>
-        <div class="text-gray-700 leading-loose">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium
-          laborum necessitatibus numquam ipsum suscipit atque earum rerum, odio
-          vitae obcaecati. Esse hic cupiditate, necessitatibus tempora vitae
-          quaerat voluptate aliquid. Eligendi.
-        </div>
-      </div>
-      <div class="border-b p-5 border-gray-200 hover:bg-gray-100">
-        <div class="flex justify-between text-sm text-gray-600 mb-1">
-          <div class="flex items-center space-x-2">
-            <div class="w-3 h-3 rounded-full bg-blue-600"></div>
-            <span>General</span>
-          </div>
-          <time>13/05/2003</time>
-        </div>
-        <h2 class="font-bold text-lg text-gray-900 mb-1">Shopping List</h2>
-        <div class="text-gray-700 leading-loose">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sapiente
-          modi eveniet culpa deleniti commodi suscipit temporibus, quia esse
-          fugiat harum. Exercitationem, nisi et eveniet delectus odio quidem
-          fuga nam sapiente!
-        </div>
-      </div>
+      <note-item v-for="note in notes" :key="note.id" :note="note" />
     </div>
   </layout-app>
 </template>

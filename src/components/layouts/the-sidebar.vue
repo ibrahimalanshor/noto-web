@@ -17,6 +17,9 @@ const items = [
     key: 'Home',
     icon: AllNoteIcon,
     label: 'All Notes',
+    to: {
+      name: 'Home',
+    },
   },
   {
     key: 'Favorite',
@@ -58,7 +61,7 @@ watch(route, () => {
 
 <template>
   <aside
-    class="fixed top-0 -left-full w-64 h-full bg-blue-600 md:left-0 transition-all"
+    class="fixed top-0 -left-full w-64 h-full bg-blue-700 md:left-0 transition-all"
     :class="{ 'left-0': !sidebar.collapsed }"
     aria-label="Sidebar"
     v-click-outside="handleClickOutside"
@@ -78,6 +81,7 @@ watch(route, () => {
         <sidebar-item
           :icon="item.icon"
           :label="item.label"
+          :to="item.to"
           :active="activeKey === item.key"
           v-for="item in items"
           :key="item.label"
