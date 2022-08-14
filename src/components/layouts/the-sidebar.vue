@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { Icon } from '@vicons/utils';
 import {
   Notebook as AllNoteIcon,
@@ -14,18 +14,22 @@ import { useRoute } from 'vue-router';
 
 const items = [
   {
+    key: 'Home',
     icon: AllNoteIcon,
     label: 'All Notes',
   },
   {
+    key: 'Favorite',
     icon: FavoriteIcon,
     label: 'Favorite',
   },
   {
+    key: 'Tag',
     icon: TagIcon,
     label: 'Tags',
   },
   {
+    key: 'Trash',
     icon: TrashIcon,
     label: 'Trash',
   },
@@ -33,6 +37,8 @@ const items = [
 
 const route = useRoute();
 const sidebar = useSidebar();
+
+const activeKey = computed(() => route.name);
 
 const handleClickCollapse = () => {
   sidebar.hide();
@@ -72,6 +78,7 @@ watch(route, () => {
         <sidebar-item
           :icon="item.icon"
           :label="item.label"
+          :active="activeKey === item.key"
           v-for="item in items"
           :key="item.label"
         />
