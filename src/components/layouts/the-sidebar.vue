@@ -17,6 +17,9 @@ const items = [
     key: 'Home',
     icon: AllNoteIcon,
     label: 'All Notes',
+    to: {
+      name: 'Home',
+    },
   },
   {
     key: 'Favorite',
@@ -78,6 +81,7 @@ watch(route, () => {
         <sidebar-item
           :icon="item.icon"
           :label="item.label"
+          :to="item.to"
           :active="activeKey === item.key"
           v-for="item in items"
           :key="item.label"
