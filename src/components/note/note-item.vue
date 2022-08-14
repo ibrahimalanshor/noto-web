@@ -13,7 +13,10 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="border-b p-5 border-gray-200 hover:bg-gray-100">
+  <router-link
+    :to="{ name: 'NoteDetail', params: { id: props.note.id } }"
+    class="block border-b p-5 border-gray-200 hover:bg-gray-100 cursor-pointer"
+  >
     <div class="flex justify-between text-sm text-gray-600 mb-1">
       <div class="flex items-center space-x-2">
         <base-dot :color="props.note.tag?.color" />
@@ -27,5 +30,5 @@ const props = defineProps({
     <div class="text-gray-700 leading-loose">
       {{ truncate(props.note.content, { length: 300 }) }}
     </div>
-  </div>
+  </router-link>
 </template>
