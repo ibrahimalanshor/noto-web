@@ -1,12 +1,36 @@
 <script setup>
+import { reactive } from 'vue';
 import dayjs from 'dayjs';
 import { LayoutApp } from '@/layouts';
-import { BaseForm, BaseTextarea, BaseButton, BaseDot } from '@/components/base';
+import {
+  BaseForm,
+  BaseTextarea,
+  BaseButton,
+  BaseDot,
+  BaseConfirm,
+} from '@/components/base';
 import { noteHelper } from '@/helpers';
+import { useConfirm } from '@/compose/helpers';
+
+const {
+  visible: confirmNoteDeleteVisible,
+  show: showConfirmNoteDelete,
+  hide: hideConfirmNoteDelete,
+} = useConfirm();
+
+const handleClickNoteDelete = () => showConfirmNoteDelete();
+const handleCancelConfirmNoteDelete = () => hideConfirmNoteDelete();
+const handleCloseConfirmNoteDelete = () => hideConfirmNoteDelete();
 </script>
 
 <template>
   <layout-app>
+    <base-confirm
+      v-if="confirmNoteDeleteVisible"
+      :text="`Are you sure you want to delete this note? ${confirmNoteDeleteVisible}`"
+      v-on:cancel="handleCancelConfirmNoteDelete"
+      v-on:close="handleCloseConfirmNoteDelete"
+    />
     <div class="p-5 border-b flex items-center justify-between">
       <div class="text-gray-600">
         <div class="flex items-center space-x-2 mb-1">
@@ -22,6 +46,9 @@ import { noteHelper } from '@/helpers';
         >
           <base-button color="primary" v-on:click="navigate">Edit</base-button>
         </router-link>
+        <base-button color="danger" v-on:click="handleClickNoteDelete"
+          >Delete</base-button
+        >
         <router-link :to="{ name: 'Home' }" v-slot="{ navigate }">
           <base-button color="light" v-on:click="navigate">Back</base-button>
         </router-link>
