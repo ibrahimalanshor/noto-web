@@ -1,5 +1,7 @@
 <script setup>
 import dayjs from 'dayjs';
+import { Icon } from '@vicons/utils';
+import { StarFilled as FavoriteIcon } from '@vicons/carbon';
 import { noteHelper } from '@/helpers';
 import { truncate } from '@/utils';
 import { BaseDot } from '@/components/base';
@@ -24,9 +26,17 @@ const props = defineProps({
       </div>
       <time>{{ noteHelper.formatDate(props.note.createdAt) }}</time>
     </div>
-    <h2 class="font-bold text-lg text-gray-900 mt-2 mb-1">
-      {{ props.note.title }}
-    </h2>
+    <div class="flex items-center space-x-2">
+      <icon
+        class="text-yellow-400 flex items-center"
+        v-if="props.note.isFavorite"
+      >
+        <favorite-icon />
+      </icon>
+      <h2 class="font-bold text-lg text-gray-900 mt-2 mb-1">
+        {{ props.note.title }}
+      </h2>
+    </div>
     <div class="text-gray-700 leading-loose">
       {{ truncate(props.note.content, { length: 300 }) }}
     </div>

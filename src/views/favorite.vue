@@ -10,6 +10,7 @@ const notes = [
       color: 'primary',
       name: 'Diary',
     },
+    isFavorite: true,
     createdAt: null,
     title: 'Tailwind CSS Badges - Flowbite',
     content:
@@ -18,6 +19,7 @@ const notes = [
   {
     id: 2,
     tag: null,
+    isFavorite: true,
     createdAt: new Date(),
     title: 'Feature preview',
     content:
@@ -29,6 +31,7 @@ const notes = [
       color: 'danger',
       name: 'Logs',
     },
+    isFavorite: true,
     createdAt: new Date(),
     title: 'Reactivity for Arrays & Objects in Vue vs. Svelte',
     content:
