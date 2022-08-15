@@ -5,6 +5,13 @@ import { Icon } from '@vicons/utils';
 import { Menu as MenuIcon } from '@vicons/carbon';
 import { useSidebar } from '@/store';
 
+const props = defineProps({
+  searchPlaceholder: {
+    type: String,
+    default: 'Search Something',
+  },
+});
+
 const sidebar = useSidebar();
 
 const handleClickMenu = () => {
@@ -21,12 +28,14 @@ const handleClickMenu = () => {
     </button>
     <div class="flex flex-grow space-x-4">
       <div class="flex-grow">
-        <base-input placeholder="Search Todo" />
+        <base-input :placeholder="props.searchPlaceholder" />
       </div>
       <div>
-        <router-link :to="{ name: 'NoteCreate' }" v-slot="{ navigate }">
-          <base-button label="New Note" v-on:click="navigate" block />
-        </router-link>
+        <slot name="create-action">
+          <router-link :to="{ name: 'NoteCreate' }" v-slot="{ navigate }">
+            <base-button label="New Note" v-on:click="navigate" block />
+          </router-link>
+        </slot>
       </div>
     </div>
   </div>
