@@ -1,15 +1,21 @@
 <script setup>
 import { LayoutApp } from '@/layouts';
+import { Icon } from '@vicons/utils';
+import { ArrowLeft as BackIcon } from '@vicons/carbon';
 import { BaseForm, BaseTextarea, BaseButton } from '@/components/base';
 </script>
 
 <template>
   <layout-app>
-    <div class="p-5 border-b flex items-center justify-between">
-      <h1 class="font-bold text-3xl text-gray-900">New Note</h1>
+    <div class="p-5 border-b flex items-center space-x-4">
       <router-link :to="{ name: 'Home' }" v-slot="{ navigate }">
-        <base-button color="light" v-on:click="navigate">Back</base-button>
+        <button class="flex items-center" v-on:click="navigate">
+          <icon size="20">
+            <back-icon />
+          </icon>
+        </button>
       </router-link>
+      <h1 class="font-bold text-2xl">New Todo</h1>
     </div>
     <div class="p-5">
       <base-form type="text" placeholder="Title" label="Title" />

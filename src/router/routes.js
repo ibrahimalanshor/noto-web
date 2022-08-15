@@ -39,4 +39,9 @@ export default [
       },
     ],
   },
+  {
+    path: '/favorite',
+    name: 'Favorite',
+    component: () => import('@/views/favorite.vue'),
+  },
 ];

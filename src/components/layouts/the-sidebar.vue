@@ -25,6 +25,9 @@ const items = [
     key: 'Favorite',
     icon: FavoriteIcon,
     label: 'Favorite',
+    to: {
+      name: 'Favorite',
+    },
   },
   {
     key: 'Tag',

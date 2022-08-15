@@ -9,6 +9,13 @@ import {
   BaseDot,
   BaseConfirm,
 } from '@/components/base';
+import { Icon } from '@vicons/utils';
+import {
+  Star as FavoriteIcon,
+  Edit as EditIcon,
+  TrashCan as TrashIcon,
+  ArrowLeft as BackIcon,
+} from '@vicons/carbon';
 import { noteHelper } from '@/helpers';
 import { useConfirm } from '@/compose/helpers';
 
@@ -32,29 +39,54 @@ const handleCloseConfirmNoteDelete = () => hideConfirmNoteDelete();
       v-on:close="handleCloseConfirmNoteDelete"
     />
     <div class="p-5 border-b flex items-center justify-between">
-      <div class="text-gray-600">
-        <div class="flex items-center space-x-2 mb-1">
+      <div class="text-gray-600 flex">
+        <router-link :to="{ name: 'Home' }" v-slot="{ navigate }">
+          <button class="flex items-center" v-on:click="navigate">
+            <icon size="20">
+              <back-icon />
+            </icon>
+          </button>
+        </router-link>
+      </div>
+      <div class="flex space-x-2">
+        <base-button class="flex items-center" color="warning">
+          <icon size="16">
+            <favorite-icon />
+          </icon>
+        </base-button>
+        <router-link
+          :to="{ name: 'NoteEdit', params: { id: 1 } }"
+          v-slot="{ navigate }"
+        >
+          <base-button
+            class="flex items-center h-full"
+            color="primary"
+            v-on:click="navigate"
+          >
+            <icon size="16">
+              <edit-icon />
+            </icon>
+          </base-button>
+        </router-link>
+        <base-button
+          class="flex items-center"
+          color="danger"
+          v-on:click="handleClickNoteDelete"
+        >
+          <icon size="16">
+            <trash-icon />
+          </icon>
+        </base-button>
+      </div>
+    </div>
+    <div class="px-5 py-6 leading-loose text-gray-900">
+      <div class="flex items-center justify-between text-gray-600">
+        <div class="flex items-center space-x-2 mb-4">
           <base-dot color="primary" />
           <span>General</span>
         </div>
         <span>13/05/2003</span>
       </div>
-      <div class="space-x-2">
-        <router-link
-          :to="{ name: 'NoteEdit', params: { id: 1 } }"
-          v-slot="{ navigate }"
-        >
-          <base-button color="primary" v-on:click="navigate">Edit</base-button>
-        </router-link>
-        <base-button color="danger" v-on:click="handleClickNoteDelete"
-          >Delete</base-button
-        >
-        <router-link :to="{ name: 'Home' }" v-slot="{ navigate }">
-          <base-button color="light" v-on:click="navigate">Back</base-button>
-        </router-link>
-      </div>
-    </div>
-    <div class="px-5 py-6 leading-loose text-gray-900">
       <h1 class="font-bold text-3xl text-gray-900 mb-5">
         Minder: Aplikasi Mindmap untuk GNU/Linux
       </h1>
