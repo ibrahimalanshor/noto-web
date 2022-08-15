@@ -33,6 +33,9 @@ const items = [
     key: 'Tag',
     icon: TagIcon,
     label: 'Tags',
+    to: {
+      name: 'Tag',
+    },
   },
   {
     key: 'Trash',

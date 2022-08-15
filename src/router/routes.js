@@ -44,4 +44,15 @@ export default [
     name: 'Favorite',
     component: () => import('@/views/favorite.vue'),
   },
+  {
+    path: '/tag',
+    component: RouterView,
+    children: [
+      {
+        path: '',
+        name: 'Tag',
+        component: () => import('@/views/tag/tag-list.vue'),
+      },
+    ],
+  },
 ];
