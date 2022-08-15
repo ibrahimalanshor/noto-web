@@ -11,6 +11,7 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  badge: null,
 });
 
 const buttonClass = computed(() => {
@@ -28,13 +29,31 @@ const buttonClass = computed(() => {
       'focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900',
     warning:
       'focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:focus:ring-yellow-900',
-    info: 'focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900',
+    info: 'focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900',
   };
 
   const blockClass = props.block ? 'w-full' : '';
   const colorClass = colors[props.color] ?? colors.default;
 
   return [blockClass, colorClass];
+});
+
+const badgeClass = computed(() => {
+  const colors = {
+    default:
+      'inline-flex justify-center items-center ml-2 w-4 h-4 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full',
+    danger:
+      'inline-flex justify-center items-center ml-2 w-4 h-4 text-xs font-semibold text-red-800 bg-red-200 rounded-full',
+    success:
+      'inline-flex justify-center items-center ml-2 w-4 h-4 text-xs font-semibold text-green-800 bg-green-200 rounded-full',
+    warning:
+      'inline-flex justify-center items-center ml-2 w-4 h-4 text-xs font-semibold text-yellow-800 bg-yellow-200 rounded-full',
+    info: 'inline-flex justify-center items-center ml-2 w-4 h-4 text-xs font-semibold text-purple-800 bg-purple-200 rounded-full',
+  };
+
+  const colorClass = colors[props.color] ?? colors.default;
+
+  return [colorClass];
 });
 </script>
 
@@ -43,5 +62,8 @@ const buttonClass = computed(() => {
     <slot>
       {{ props.label }}
     </slot>
+    <span :class="badgeClass" v-if="props.badge">
+      {{ props.badge }}
+    </span>
   </button>
 </template>
