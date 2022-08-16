@@ -1,8 +1,9 @@
 <script setup>
 import { LayoutApp } from '@/layouts';
-import { BaseInput, BaseButton } from '@/components/base';
+import { BaseInput, BaseButton, BaseDropdown } from '@/components/base';
+import HeaderFilter from './header-filter.vue';
 import { Icon } from '@vicons/utils';
-import { Menu as MenuIcon } from '@vicons/carbon';
+import { Menu as MenuIcon, Add as NewIcon } from '@vicons/carbon';
 import { useSidebar } from '@/store';
 
 const props = defineProps({
@@ -10,12 +11,20 @@ const props = defineProps({
     type: String,
     default: 'Search Something',
   },
+  createLabel: {
+    type: String,
+    default: 'New',
+  },
 });
+const emit = defineEmits(['create']);
 
 const sidebar = useSidebar();
 
 const handleClickMenu = () => {
   sidebar.show();
+};
+const handleCreate = () => {
+  emit('create');
 };
 </script>
 
@@ -30,12 +39,23 @@ const handleClickMenu = () => {
       <div class="flex-grow">
         <base-input :placeholder="props.searchPlaceholder" />
       </div>
+      <header-filter />
       <div>
-        <slot name="create-action">
-          <router-link :to="{ name: 'NoteCreate' }" v-slot="{ navigate }">
-            <base-button label="New Note" v-on:click="navigate" block />
-          </router-link>
-        </slot>
+        <base-button
+          class="hidden md:block"
+          :label="props.createLabel"
+          v-on:click="handleCreate"
+          block
+        />
+        <base-button
+          class="md:hidden flex items-center"
+          v-on:click="handleCreate"
+          block
+        >
+          <icon size="20">
+            <new-icon />
+          </icon>
+        </base-button>
       </div>
     </div>
   </div>

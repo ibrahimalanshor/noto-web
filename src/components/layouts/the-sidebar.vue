@@ -67,8 +67,8 @@ watch(route, () => {
 
 <template>
   <aside
-    class="fixed top-0 -left-full w-64 h-full bg-blue-700 md:left-0 transition-all"
-    :class="{ 'left-0': !sidebar.collapsed }"
+    class="z-10 fixed top-0 w-64 h-full bg-blue-700 md:left-0 transition-all"
+    :class="[sidebar.collapsed ? '-left-full' : 'left-0']"
     aria-label="Sidebar"
     v-click-outside="handleClickOutside"
   >
