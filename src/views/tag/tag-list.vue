@@ -27,11 +27,11 @@ const tags = [
 <template>
   <layout-app>
     <div class="p-5 border-b">
-      <header-menu class="mb-6" search-placeholder="Search Tags">
-        <template #create-action>
-          <base-button label="New Tag" />
-        </template>
-      </header-menu>
+      <header-menu
+        class="mb-6"
+        search-placeholder="Search Tags"
+        create-label="New Tag"
+      />
       <h1 class="font-bold text-3xl text-gray-900">Tags</h1>
     </div>
     <div class="p-5 flex flex-wrap gap-2">

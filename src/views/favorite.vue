@@ -2,6 +2,9 @@
 import { LayoutApp } from '@/layouts';
 import { HeaderMenu } from '@/components/layouts/headers';
 import { NoteItem } from '@/components/note';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const notes = [
   {
@@ -38,12 +41,20 @@ const notes = [
       'Teleport is a new feature introduced in Vue 3. Teleport provides better control to developers on where exactly an element is rendered. Get Teleporting Let us create a new Vue 3 app to start playing around with teleport. We will use Vite, because it is 2021. 1 npm init @vitejs/app Provide a project name (teleport) and select vue as the template.Teleport is a new feature introduced in Vue 3. Teleport provides better control to developers on where exactly an element is rendered. Get Teleporting Let us create a new Vue 3 app to start playing around with teleport. We will use Vite, because it is 2021. 1 npm init @vitejs/app Provide a project name (teleport) and select vue as the template.Teleport is a new feature introduced in Vue 3. Teleport provides better control to developers on where exactly an element is rendered. Get Teleporting Let us create a new Vue 3 app to start playing around with teleport. We will use Vite, because it is 2021. 1 npm init @vitejs/app Provide a project name (teleport) and select vue as the template.Teleport is a new feature introduced in Vue 3. Teleport provides better control to developers on where exactly an element is rendered. Get Teleporting Let us create a new Vue 3 app to start playing around with teleport. We will use Vite, because it is 2021. 1 npm init @vitejs/app Provide a project name (teleport) and select vue as the template.',
   },
 ];
+
+const handleCreate = () => {
+  router.push({ name: 'NoteCreate' });
+};
 </script>
 
 <template>
   <layout-app>
     <div class="p-5 border-b">
-      <header-menu class="mb-6" />
+      <header-menu
+        class="mb-6"
+        create-label="New Note"
+        v-on:create="handleCreate"
+      />
       <h1 class="font-bold text-3xl text-gray-900">Favorite</h1>
     </div>
     <div>
