@@ -1,14 +1,9 @@
 <script setup>
-import { reactive } from 'vue';
+import { ref } from 'vue';
 import dayjs from 'dayjs';
 import { LayoutApp } from '@/layouts';
-import {
-  BaseForm,
-  BaseTextarea,
-  BaseButton,
-  BaseDot,
-  BaseConfirm,
-} from '@/components/base';
+import { BaseForm, BaseTextarea, BaseButton, BaseDot } from '@/components/base';
+import { NoteDeleteConfirm } from '@/components/note';
 import { Icon } from '@vicons/utils';
 import {
   Star as FavoriteIcon,
@@ -16,28 +11,16 @@ import {
   TrashCan as TrashIcon,
   ArrowLeft as BackIcon,
 } from '@vicons/carbon';
-import { noteHelper } from '@/helpers';
-import { useConfirm } from '@/compose/helpers';
 
-const {
-  visible: confirmNoteDeleteVisible,
-  show: showConfirmNoteDelete,
-  hide: hideConfirmNoteDelete,
-} = useConfirm();
+const noteDeleteConfirmVisible = ref(false);
 
-const handleClickNoteDelete = () => showConfirmNoteDelete();
-const handleCancelConfirmNoteDelete = () => hideConfirmNoteDelete();
-const handleCloseConfirmNoteDelete = () => hideConfirmNoteDelete();
+const handleDelete = () => {
+  noteDeleteConfirmVisible.value = true;
+};
 </script>
 
 <template>
   <layout-app>
-    <base-confirm
-      v-if="confirmNoteDeleteVisible"
-      :text="`Are you sure you want to delete this note? ${confirmNoteDeleteVisible}`"
-      v-on:cancel="handleCancelConfirmNoteDelete"
-      v-on:close="handleCloseConfirmNoteDelete"
-    />
     <div class="p-5 border-b flex items-center justify-between">
       <div class="text-gray-600 flex">
         <router-link :to="{ name: 'Home' }" v-slot="{ navigate }">
@@ -71,7 +54,7 @@ const handleCloseConfirmNoteDelete = () => hideConfirmNoteDelete();
         <base-button
           class="flex items-center"
           color="danger"
-          v-on:click="handleClickNoteDelete"
+          v-on:click="handleDelete"
         >
           <icon size="16">
             <trash-icon />
@@ -150,5 +133,6 @@ const handleCloseConfirmNoteDelete = () => hideConfirmNoteDelete();
         tristique. Curabitur dapibus id justo non varius.
       </p>
     </div>
+    <note-delete-confirm v-model="noteDeleteConfirmVisible" />
   </layout-app>
 </template>

@@ -21,27 +21,18 @@ const emit = defineEmits(['update:modelValue', 'show', 'close', 'toggle']);
 
 const visible = ref(props.modelValue);
 
-const show = () => {
-  visible.value = true;
-
-  emit('show');
-  emit('update:modelValue', visible.value);
-};
-const close = () => {
-  visible.value = false;
-
-  emit('close');
-  emit('update:modelValue', visible.value);
-};
-const toggle = () => {
+const handleToggle = () => {
   visible.value = !visible.value;
 
-  emit('toggle');
   emit('update:modelValue', visible.value);
+  emit('toggle');
 };
+const handleClose = () => {
+  visible.value = false;
 
-const handleToggle = () => toggle();
-const handleClose = () => close();
+  emit('update:modelValue', visible.value);
+  emit('close');
+};
 
 watch(
   () => props.modelValue,

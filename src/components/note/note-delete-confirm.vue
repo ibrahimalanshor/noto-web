@@ -1,15 +1,11 @@
 <script setup>
 import { ref, watch } from 'vue';
-import { BaseModal, BaseForm, BaseButton } from '@/components/base';
+import { BaseConfirm } from '@/components/base';
 
 const props = defineProps({
   modelValue: {
     type: Boolean,
     default: false,
-  },
-  tag: {
-    type: Object,
-    required: true,
   },
 });
 const emit = defineEmits(['update:modelValue', 'close']);
@@ -17,8 +13,8 @@ const emit = defineEmits(['update:modelValue', 'close']);
 const visible = ref(props.modelValue);
 
 const handleClose = () => {
-  emit('close');
   emit('update:modelValue', false);
+  emit('close');
 };
 
 watch(
@@ -30,17 +26,9 @@ watch(
 </script>
 
 <template>
-  <base-modal
-    title="Edit Tag"
-    :show-footer="true"
+  <base-confirm
+    text="Are you sure you want to delete this note?"
     v-model="visible"
     v-on:close="handleClose"
-  >
-    <base-form label="Name" placeholder="Name" class="mb-2" />
-
-    <template #footer="{ close }">
-      <base-button color="light" v-on:click="close">Cancel</base-button>
-      <base-button>Save</base-button>
-    </template>
-  </base-modal>
+  />
 </template>

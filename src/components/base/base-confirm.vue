@@ -1,9 +1,14 @@
 <script setup>
+import { ref, watch } from 'vue';
 import { Icon } from '@vicons/utils';
 import { Warning as WarningIcon, Close as CloseIcon } from '@vicons/carbon';
 import BaseButton from './base-button.vue';
 
 const props = defineProps({
+  modelValue: {
+    type: Boolean,
+    default: false,
+  },
   text: {
     type: String,
     default: 'Are you sure you want to delete this product?',
@@ -17,17 +22,27 @@ const props = defineProps({
     default: 'No, cancel',
   },
 });
-const emit = defineEmits(['cancel', 'close']);
+const emit = defineEmits(['update:modelValue', 'close']);
 
-const handleClickCancel = () => emit('cancel');
-const handleClickClose = () => emit('close');
-const handleClickOutside = () => emit('close');
+const visible = ref(props.modelValue);
+
+const handleClose = () => {
+  visible.value = false;
+
+  emit('update:modelValue', visible.value);
+  emit('close');
+};
+
+watch(
+  () => props.modelValue,
+  () => {
+    visible.value = props.modelValue;
+  }
+);
 </script>
 
 <template>
-  <div>
-    <slot name="toggle" />
-
+  <teleport to="body" v-if="visible">
     <div
       id="popup-modal"
       tabindex="-1"
@@ -37,13 +52,13 @@ const handleClickOutside = () => emit('close');
     >
       <div
         class="relative p-4 w-full max-w-md h-full md:h-auto"
-        v-click-outside="handleClickOutside"
+        v-click-outside="handleClose"
       >
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <button
             type="button"
             class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
-            v-on:click="handleClickClose"
+            v-on:click="handleClose"
           >
             <icon size="24">
               <close-icon />
@@ -71,7 +86,7 @@ const handleClickOutside = () => emit('close');
                 <base-button
                   color="light"
                   :label="props.cancelText"
-                  v-on:click="handleClickCancel"
+                  v-on:click="handleClose"
                 />
               </slot>
             </div>
@@ -79,5 +94,5 @@ const handleClickOutside = () => emit('close');
         </div>
       </div>
     </div>
-  </div>
+  </teleport>
 </template>

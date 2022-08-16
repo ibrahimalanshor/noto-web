@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue';
+import { ref } from 'vue';
 import { LayoutApp } from '@/layouts';
 import { BaseButton } from '@/components/base';
 import { Icon } from '@vicons/utils';
@@ -15,9 +15,7 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const tagEditModalState = reactive({
-  visible: false,
-});
+const tagEditModalStateVisible = ref(false);
 
 const notes = [
   {
@@ -60,7 +58,7 @@ const handleCreateNote = () => {
 };
 
 const handleEdit = () => {
-  tagEditModalState.visible = true;
+  tagEditModalStateVisible.value = true;
 };
 </script>
 
@@ -105,7 +103,7 @@ const handleEdit = () => {
       <note-item v-for="note in notes" :key="note.id" :note="note" />
     </div>
     <tag-edit-modal
-      v-model:visible="tagEditModalState.visible"
+      v-model="tagEditModalStateVisible"
       :tag="{
         id: 1,
         name: 'General',
