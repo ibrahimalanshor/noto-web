@@ -3,24 +3,24 @@ import { ref, watch } from 'vue';
 import { BaseModal, BaseForm, BaseButton } from '@/components/base';
 
 const props = defineProps({
-  visible: {
+  modelValue: {
     type: Boolean,
     default: false,
   },
 });
-const emit = defineEmits(['update:visible', 'close']);
+const emit = defineEmits(['update:modelValue', 'close']);
 
-const visible = ref(props.visible);
+const visible = ref(props.modelValue);
 
 const handleClose = () => {
+  emit('update:modelValue', false);
   emit('close');
-  emit('update:visible', false);
 };
 
 watch(
-  () => props.visible,
+  () => props.modelValue,
   () => {
-    visible.value = props.visible;
+    visible.value = props.modelValue;
   }
 );
 </script>
