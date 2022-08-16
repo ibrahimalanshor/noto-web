@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue';
+import { ref } from 'vue';
 import { LayoutApp } from '@/layouts';
 import { HeaderMenu } from '@/components/layouts/headers';
 import { BaseButton } from '@/components/base';
@@ -8,9 +8,7 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const tagCreateModalState = reactive({
-  visible: false,
-});
+const tagCreateModalStateVisible = ref(false);
 
 const colors = ['primary', 'danger', 'warning', 'success', 'info'];
 const tags = [
@@ -33,7 +31,7 @@ const tags = [
 }));
 
 const handleCreate = () => {
-  tagCreateModalState.visible = true;
+  tagCreateModalStateVisible.value = true;
 };
 </script>
 
@@ -64,6 +62,6 @@ const handleCreate = () => {
         />
       </router-link>
     </div>
-    <tag-create-modal v-model:visible="tagCreateModalState.visible" />
+    <tag-create-modal v-model="tagCreateModalStateVisible" />
   </layout-app>
 </template>
