@@ -49,13 +49,20 @@ const handleCreate = () => {
       <h1 class="font-bold text-3xl text-gray-900">Tags</h1>
     </div>
     <div class="p-5 flex flex-wrap gap-2">
-      <div v-for="tag in tags" :key="tag.id">
+      <router-link
+        :to="{ name: 'TagDetail', params: { id: tag.id } }"
+        v-for="tag in tags"
+        :key="tag.id"
+        custom
+        v-slot="{ navigate }"
+      >
         <base-button
           :label="tag.name"
           :badge="tag.notesCount"
           :color="tag.color"
+          v-on:click="navigate"
         />
-      </div>
+      </router-link>
     </div>
     <tag-create-modal v-model:visible="tagCreateModalState.visible" />
   </layout-app>

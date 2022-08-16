@@ -53,6 +53,11 @@ export default [
         name: 'Tag',
         component: () => import('@/views/tag/tag-list.vue'),
       },
+      {
+        path: ':id',
+        name: 'TagDetail',
+        component: () => import('@/views/tag/tag-detail.vue'),
+      },
     ],
   },
 ];
