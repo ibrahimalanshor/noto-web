@@ -9,13 +9,14 @@ import {
   ArrowLeft as BackIcon,
 } from '@vicons/carbon';
 import { HeaderMenu } from '@/components/layouts/headers';
-import { TagEditModal } from '@/components/tag';
+import { TagEditModal, TagDeleteConfirm } from '@/components/tag';
 import { NoteItem } from '@/components/note';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const tagEditModalStateVisible = ref(false);
+const tagEditModalVisible = ref(false);
+const tagDeleteConfirmVisible = ref(false);
 
 const notes = [
   {
@@ -58,7 +59,11 @@ const handleCreateNote = () => {
 };
 
 const handleEdit = () => {
-  tagEditModalStateVisible.value = true;
+  tagEditModalVisible.value = true;
+};
+
+const handleDelete = () => {
+  tagDeleteConfirmVisible.value = true;
 };
 </script>
 
@@ -91,7 +96,11 @@ const handleEdit = () => {
               <edit-icon />
             </icon>
           </base-button>
-          <base-button color="danger" class="flex items-center">
+          <base-button
+            color="danger"
+            class="flex items-center"
+            v-on:click="handleDelete"
+          >
             <icon size="16">
               <trash-icon />
             </icon>
@@ -103,7 +112,7 @@ const handleEdit = () => {
       <note-item v-for="note in notes" :key="note.id" :note="note" />
     </div>
     <tag-edit-modal
-      v-model="tagEditModalStateVisible"
+      v-model="tagEditModalVisible"
       :tag="{
         id: 1,
         name: 'General',
@@ -111,5 +120,6 @@ const handleEdit = () => {
         notesCount: 16,
       }"
     />
+    <tag-delete-confirm v-model="tagDeleteConfirmVisible" />
   </layout-app>
 </template>
