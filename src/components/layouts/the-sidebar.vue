@@ -94,5 +94,11 @@ watch(route, () => {
         />
       </ul>
     </div>
+    <teleport to="body">
+      <div
+        class="fixed inset-0 bg-transparent md:hidden"
+        :class="{ hidden: sidebar.collapsed }"
+      ></div>
+    </teleport>
   </aside>
 </template>
