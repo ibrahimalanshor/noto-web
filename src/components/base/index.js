@@ -7,3 +7,4 @@ export { default as BaseConfirm } from './base-confirm.vue';
 export { default as BaseDropdown } from './base-dropdown.vue';
 export { default as BaseCollapse } from './base-collapse.vue';
 export { default as BaseSelect } from './base-select.vue';
+export { default as BaseModal } from './base-modal.vue';

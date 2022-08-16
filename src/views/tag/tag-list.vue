@@ -1,7 +1,16 @@
 <script setup>
+import { reactive } from 'vue';
 import { LayoutApp } from '@/layouts';
 import { HeaderMenu } from '@/components/layouts/headers';
 import { BaseButton } from '@/components/base';
+import { TagCreateModal } from '@/components/tag';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const tagCreateModalState = reactive({
+  visible: false,
+});
 
 const colors = ['primary', 'danger', 'warning', 'success', 'info'];
 const tags = [
@@ -22,6 +31,10 @@ const tags = [
   color: colors[Math.floor(Math.random() * colors.length)],
   notesCount: Math.floor(Math.random() * 20) + 1,
 }));
+
+const handleCreate = () => {
+  tagCreateModalState.visible = true;
+};
 </script>
 
 <template>
@@ -31,6 +44,7 @@ const tags = [
         class="mb-6"
         search-placeholder="Search Tags"
         create-label="New Tag"
+        v-on:create="handleCreate"
       />
       <h1 class="font-bold text-3xl text-gray-900">Tags</h1>
     </div>
@@ -43,5 +57,6 @@ const tags = [
         />
       </div>
     </div>
+    <tag-create-modal v-model:visible="tagCreateModalState.visible" />
   </layout-app>
 </template>
