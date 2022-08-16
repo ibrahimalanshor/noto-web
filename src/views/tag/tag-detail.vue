@@ -1,4 +1,5 @@
 <script setup>
+import { reactive } from 'vue';
 import { LayoutApp } from '@/layouts';
 import { BaseButton } from '@/components/base';
 import { Icon } from '@vicons/utils';
@@ -8,10 +9,15 @@ import {
   ArrowLeft as BackIcon,
 } from '@vicons/carbon';
 import { HeaderMenu } from '@/components/layouts/headers';
+import { TagEditModal } from '@/components/tag';
 import { NoteItem } from '@/components/note';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+
+const tagEditModalState = reactive({
+  visible: false,
+});
 
 const notes = [
   {
@@ -49,8 +55,12 @@ const notes = [
   },
 ];
 
-const handleCreate = () => {
+const handleCreateNote = () => {
   router.push({ name: 'NoteCreate' });
+};
+
+const handleEdit = () => {
+  tagEditModalState.visible = true;
 };
 </script>
 
@@ -60,7 +70,7 @@ const handleCreate = () => {
       <header-menu
         class="mb-6"
         create-label="New Note"
-        v-on:create="handleCreate"
+        v-on:create="handleCreateNote"
       />
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-4">
@@ -74,7 +84,11 @@ const handleCreate = () => {
           <h1 class="font-bold text-3xl text-gray-900">Tags: General</h1>
         </div>
         <div class="flex space-x-2">
-          <base-button color="primary" class="flex items-center">
+          <base-button
+            color="primary"
+            class="flex items-center"
+            v-on:click="handleEdit"
+          >
             <icon size="16">
               <edit-icon />
             </icon>
@@ -90,5 +104,14 @@ const handleCreate = () => {
     <div>
       <note-item v-for="note in notes" :key="note.id" :note="note" />
     </div>
+    <tag-edit-modal
+      v-model:visible="tagEditModalState.visible"
+      :tag="{
+        id: 1,
+        name: 'General',
+        color: 'primary',
+        notesCount: 16,
+      }"
+    />
   </layout-app>
 </template>
