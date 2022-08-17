@@ -71,7 +71,12 @@ const handleDeleteAll = () => {
       </div>
     </div>
     <div>
-      <note-item v-for="note in notes" :key="note.id" :note="note" />
+      <note-item
+        v-for="note in notes"
+        :key="note.id"
+        :note="note"
+        back-route="/trash"
+      />
     </div>
     <trash-delete-confirm
       text="Are you sure you want to delete all trash?"

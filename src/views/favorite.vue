@@ -58,7 +58,12 @@ const handleCreate = () => {
       <h1 class="font-bold text-3xl text-gray-900">Favorite</h1>
     </div>
     <div>
-      <note-item v-for="note in notes" :key="note.id" :note="note" />
+      <note-item
+        v-for="note in notes"
+        :key="note.id"
+        :note="note"
+        back-route="/favorite"
+      />
     </div>
   </layout-app>
 </template>

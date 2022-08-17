@@ -11,11 +11,18 @@ import {
   TrashCan as TrashIcon,
   ArrowLeft as BackIcon,
 } from '@vicons/carbon';
+import { useRouter, useRoute } from 'vue-router';
+
+const router = useRouter();
+const route = useRoute();
 
 const noteDeleteConfirmVisible = ref(false);
 
 const handleDelete = () => {
   noteDeleteConfirmVisible.value = true;
+};
+const handleBack = () => {
+  router.push(route.query.back || '/');
 };
 </script>
 
@@ -23,13 +30,11 @@ const handleDelete = () => {
   <layout-app>
     <div class="p-5 border-b flex items-center justify-between">
       <div class="text-gray-600 flex">
-        <router-link :to="{ name: 'Home' }" v-slot="{ navigate }">
-          <button class="flex items-center" v-on:click="navigate">
-            <icon size="20">
-              <back-icon />
-            </icon>
-          </button>
-        </router-link>
+        <button class="flex items-center" v-on:click="handleBack">
+          <icon size="20">
+            <back-icon />
+          </icon>
+        </button>
       </div>
       <div class="flex space-x-2">
         <base-button class="flex items-center" color="warning">

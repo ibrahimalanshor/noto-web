@@ -8,7 +8,10 @@ import { BaseForm, BaseTextarea, BaseButton } from '@/components/base';
 <template>
   <layout-app>
     <div class="p-5 border-b flex items-center space-x-4">
-      <router-link :to="{ name: 'Home' }" v-slot="{ navigate }">
+      <router-link
+        :to="{ name: 'NoteDetail', params: { id: 1 } }"
+        v-slot="{ navigate }"
+      >
         <button class="flex items-center" v-on:click="navigate">
           <icon size="20">
             <back-icon />

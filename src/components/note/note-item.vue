@@ -11,12 +11,17 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  backRoute: String,
 });
 </script>
 
 <template>
   <router-link
-    :to="{ name: 'NoteDetail', params: { id: props.note.id } }"
+    :to="{
+      name: 'NoteDetail',
+      params: { id: props.note.id },
+      query: { back: props.backRoute },
+    }"
     class="block border-b p-5 border-gray-200 hover:bg-gray-100 cursor-pointer"
   >
     <div class="flex justify-between text-sm text-gray-600 mb-1">
