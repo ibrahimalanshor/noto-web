@@ -72,6 +72,11 @@ export default [
     ],
   },
   {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import('@/views/profile.vue'),
+  },
+  {
     path: '/404',
     name: 'NotFound',
     component: () => import('@/views/404.vue'),
