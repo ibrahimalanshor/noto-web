@@ -41,6 +41,9 @@ const items = [
     key: 'Trash',
     icon: TrashIcon,
     label: 'Trash',
+    to: {
+      name: 'Trash',
+    },
   },
 ];
 
