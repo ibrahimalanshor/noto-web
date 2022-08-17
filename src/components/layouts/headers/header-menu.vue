@@ -15,6 +15,14 @@ const props = defineProps({
     type: String,
     default: 'New',
   },
+  creatable: {
+    type: Boolean,
+    default: true,
+  },
+  filterable: {
+    type: Boolean,
+    default: true,
+  },
 });
 const emit = defineEmits(['create']);
 
@@ -39,8 +47,8 @@ const handleCreate = () => {
       <div class="flex-grow">
         <base-input :placeholder="props.searchPlaceholder" />
       </div>
-      <header-filter />
-      <div>
+      <header-filter v-if="props.filterable" />
+      <div v-if="props.creatable">
         <base-button
           class="hidden md:block"
           :label="props.createLabel"

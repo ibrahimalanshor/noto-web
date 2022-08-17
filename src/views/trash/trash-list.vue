@@ -1,10 +1,15 @@
 <script setup>
+import { ref } from 'vue';
 import { LayoutApp } from '@/layouts';
+import { BaseButton } from '@/components/base';
 import { HeaderMenu } from '@/components/layouts/headers';
+import { TrashDeleteConfirm } from '@/components/trash';
 import { NoteItem } from '@/components/note';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+
+const trashDeleteConfirmVisible = ref(false);
 
 const notes = [
   {
@@ -13,7 +18,7 @@ const notes = [
       color: 'primary',
       name: 'Diary',
     },
-    isFavorite: true,
+    isFavorite: false,
     createdAt: null,
     title: 'Tailwind CSS Badges - Flowbite',
     content:
@@ -22,7 +27,7 @@ const notes = [
   {
     id: 2,
     tag: null,
-    isFavorite: true,
+    isFavorite: false,
     createdAt: new Date(),
     title: 'Feature preview',
     content:
@@ -34,7 +39,7 @@ const notes = [
       color: 'danger',
       name: 'Logs',
     },
-    isFavorite: true,
+    isFavorite: false,
     createdAt: new Date(),
     title: 'Reactivity for Arrays & Objects in Vue vs. Svelte',
     content:
@@ -42,8 +47,8 @@ const notes = [
   },
 ];
 
-const handleCreate = () => {
-  router.push({ name: 'NoteCreate' });
+const handleDeleteAll = () => {
+  trashDeleteConfirmVisible.value = true;
 };
 </script>
 
@@ -52,13 +57,25 @@ const handleCreate = () => {
     <div class="p-5 border-b">
       <header-menu
         class="mb-6"
-        create-label="New Favorite"
-        v-on:create="handleCreate"
+        search-placeholder="Search in Trash"
+        :filterable="false"
+        :creatable="false"
       />
-      <h1 class="font-bold text-3xl text-gray-900">Favorite</h1>
+      <div class="flex items-center justify-between">
+        <h1 class="font-bold text-3xl text-gray-900">Trash</h1>
+        <base-button
+          color="danger"
+          label="Delete All"
+          v-on:click="handleDeleteAll"
+        />
+      </div>
     </div>
     <div>
       <note-item v-for="note in notes" :key="note.id" :note="note" />
     </div>
+    <trash-delete-confirm
+      text="Are you sure you want to delete all trash?"
+      v-model="trashDeleteConfirmVisible"
+    />
   </layout-app>
 </template>

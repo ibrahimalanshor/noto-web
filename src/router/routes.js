@@ -60,4 +60,15 @@ export default [
       },
     ],
   },
+  {
+    path: '/trash',
+    component: RouterView,
+    children: [
+      {
+        path: '',
+        name: 'Trash',
+        component: () => import('@/views/trash/trash-list.vue'),
+      },
+    ],
+  },
 ];
