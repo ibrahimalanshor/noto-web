@@ -1,7 +1,7 @@
 # Noto
 
 - [x] Setup
-- [ ] Prototype
+- [x] Prototype
 - [ ] Dev
 - [ ] Integrate
 - [ ] Test
