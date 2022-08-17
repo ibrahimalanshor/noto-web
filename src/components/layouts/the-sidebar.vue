@@ -7,6 +7,7 @@ import {
   Bookmark as FavoriteIcon,
   TrashCan as TrashIcon,
   ChevronLeft as CollapseIcon,
+  UserAvatar as ProfileIcon,
 } from '@vicons/carbon';
 import { SidebarItem } from './sidebars';
 import { useSidebar } from '@/store';
@@ -96,6 +97,20 @@ watch(route, () => {
           :key="item.label"
         />
       </ul>
+      <div class="absolute bottom-0 left-0 w-full px-3 py-4">
+        <router-link
+          :to="{ name: 'Profile' }"
+          class="flex w-full items-center p-2 text-base font-normal rounded-lg dark:text-white hover:bg-white hover:text-gray-900 dark:hover:bg-gray-700"
+          :class="[
+            activeKey === 'Profile' ? 'bg-white text-gray-900' : 'text-white',
+          ]"
+        >
+          <icon size="16">
+            <profile-icon />
+          </icon>
+          <span class="ml-3">Profile</span>
+        </router-link>
+      </div>
     </div>
     <teleport to="body">
       <div
