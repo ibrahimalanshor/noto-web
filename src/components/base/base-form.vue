@@ -12,6 +12,10 @@ const props = defineProps({
     type: String,
     default: 'Placeholder',
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 </script>
 
@@ -27,6 +31,7 @@ const props = defineProps({
         :id="props.id"
         :type="props.type"
         :placeholder="props.placeholder"
+        :disabled="props.disabled"
       />
     </slot>
   </div>
