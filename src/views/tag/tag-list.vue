@@ -10,7 +10,7 @@ const router = useRouter();
 
 const tagCreateModalStateVisible = ref(false);
 
-const colors = ['primary', 'danger', 'warning', 'success', 'info'];
+const colors = ['primary', 'dark', 'danger', 'warning', 'success', 'info'];
 const tags = [
   'General',
   'Diary',

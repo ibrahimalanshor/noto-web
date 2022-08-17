@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue';
-import { BaseModal, BaseForm, BaseButton } from '@/components/base';
+import { BaseModal, BaseButton } from '@/components/base';
+import TagForm from './tag-form.vue';
 
 const props = defineProps({
   modelValue: {
@@ -32,7 +33,7 @@ watch(
     v-model="visible"
     v-on:close="handleClose"
   >
-    <base-form label="Name" placeholder="Name" class="mb-2" />
+    <tag-form />
 
     <template #footer="{ close }">
       <base-button color="light" v-on:click="close">Cancel</base-button>
