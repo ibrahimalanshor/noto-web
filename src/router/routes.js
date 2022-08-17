@@ -77,6 +77,16 @@ export default [
     component: () => import('@/views/profile.vue'),
   },
   {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/auth/login.vue'),
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: () => import('@/views/auth/register.vue'),
+  },
+  {
     path: '/404',
     name: 'NotFound',
     component: () => import('@/views/404.vue'),
