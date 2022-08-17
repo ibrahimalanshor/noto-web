@@ -109,7 +109,12 @@ const handleDelete = () => {
       </div>
     </div>
     <div>
-      <note-item v-for="note in notes" :key="note.id" :note="note" />
+      <note-item
+        v-for="note in notes"
+        :key="note.id"
+        :note="note"
+        back-route="/tag/1"
+      />
     </div>
     <tag-edit-modal
       v-model="tagEditModalVisible"

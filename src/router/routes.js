@@ -67,8 +67,19 @@ export default [
       {
         path: '',
         name: 'Trash',
-        component: () => import('@/views/trash/trash-list.vue'),
+        component: () => import('@/views/trash.vue'),
       },
     ],
+  },
+  {
+    path: '/404',
+    name: 'NotFound',
+    component: () => import('@/views/404.vue'),
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: {
+      name: 'NotFound',
+    },
   },
 ];
