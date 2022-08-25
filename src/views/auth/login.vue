@@ -5,9 +5,11 @@ import { BaseForm, BaseButton, BaseAlert } from '@/components/base';
 import { HandledError } from '@/interfaces';
 
 import { useRouter } from 'vue-router';
+import { useToast } from '@/store';
 import { useLogin } from '@/compose/auth';
 
 const router = useRouter();
+const toast = useToast();
 const { error, credential, loading, login, resetError } = useLogin();
 
 const hasError = computed(() => error.value?.status === 401);
@@ -17,10 +19,10 @@ const handleSubmit = async () => {
   try {
     await login();
 
-    router.push({ name: 'login' });
+    router.push({ name: 'Home' });
   } catch (err) {
     if (!(err instanceof HandledError)) {
-      alert('something error');
+      toast.show('Something Error');
     }
   }
 };
@@ -37,15 +39,19 @@ const handleSubmit = async () => {
     <form v-on:submit.prevent="handleSubmit">
       <base-form
         label="Email"
-        v-model="credential.email"
+        type="email"
+        placeholder="Email"
         :color="error?.errors?.email ? 'danger' : ''"
         :helper="error?.errors?.email?.msg"
+        v-model="credential.email"
       />
       <base-form
         label="Password"
-        v-model="credential.password"
+        type="password"
+        placeholder="Password"
         :color="error?.errors?.password ? 'danger' : ''"
         :helper="error?.errors?.password?.msg"
+        v-model="credential.password"
       />
       <base-button
         type="submit"
