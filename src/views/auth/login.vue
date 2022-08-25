@@ -1,14 +1,65 @@
 <script setup>
+import { computed } from 'vue';
 import { LayoutAuth } from '@/layouts';
-import { BaseForm, BaseButton } from '@/components/base';
+import { BaseForm, BaseButton, BaseAlert } from '@/components/base';
+import { HandledError } from '@/interfaces';
+
+import { useRouter } from 'vue-router';
+import { useToast } from '@/store';
+import { useLogin } from '@/compose/auth';
+
+const router = useRouter();
+const toast = useToast();
+const { error, credential, loading, login, resetError } = useLogin();
+
+const hasError = computed(() => error.value?.status === 401);
+
+const handleCloseAlert = () => resetError();
+const handleSubmit = async () => {
+  try {
+    await login();
+
+    router.push({ name: 'Home' });
+  } catch (err) {
+    if (!(err instanceof HandledError)) {
+      toast.show('Something Error');
+    }
+  }
+};
 </script>
 
 <template>
   <layout-auth title="Sign in to your account">
-    <form action="#">
-      <base-form label="Email" />
-      <base-form label="Password" />
-      <base-button label="Sign In" class="mb-4" block />
+    <base-alert
+      color="danger"
+      :visible="hasError"
+      :text="error?.message"
+      v-on:close="handleCloseAlert"
+    />
+    <form v-on:submit.prevent="handleSubmit">
+      <base-form
+        label="Email"
+        type="email"
+        placeholder="Email"
+        :color="error?.errors?.email ? 'danger' : ''"
+        :helper="error?.errors?.email?.msg"
+        v-model="credential.email"
+      />
+      <base-form
+        label="Password"
+        type="password"
+        placeholder="Password"
+        :color="error?.errors?.password ? 'danger' : ''"
+        :helper="error?.errors?.password?.msg"
+        v-model="credential.password"
+      />
+      <base-button
+        type="submit"
+        label="Sign In"
+        class="mb-4"
+        block
+        :disabled="loading"
+      />
       <p
         class="text-center text-sm font-light text-gray-500 dark:text-gray-400"
       >

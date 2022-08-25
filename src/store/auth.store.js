@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 
 export default defineStore('auth', {
+  persist: true,
   state: () => ({
     isLogin: false,
     token: {
@@ -14,7 +15,7 @@ export default defineStore('auth', {
       return new Date() > new Date(this.decoded.expireAt * 1000);
     },
   },
-  action: {
+  actions: {
     login: function (accessToken, refreshToken) {
       this.token.accessToken = accessToken;
       this.token.refreshToken = refreshToken;
