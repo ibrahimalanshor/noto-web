@@ -21,11 +21,18 @@ const props = defineProps({
     type: String,
     default: 'No, cancel',
   },
+  confirmDisabled: {
+    type: Boolean,
+    default: false,
+  },
 });
-const emit = defineEmits(['update:modelValue', 'close']);
+const emit = defineEmits(['update:modelValue', 'close', 'confirm']);
 
 const visible = ref(props.modelValue);
 
+const handleConfirm = () => {
+  emit('confirm');
+};
 const handleClose = () => {
   visible.value = false;
 
@@ -80,7 +87,12 @@ watch(
             </slot>
             <div class="space-x-2">
               <slot name="confirm">
-                <base-button color="danger" :label="props.confirmText" />
+                <base-button
+                  color="danger"
+                  :label="props.confirmText"
+                  v-on:click="handleConfirm"
+                  :disabled="props.confirmDisabled"
+                />
               </slot>
               <slot name="cancel">
                 <base-button
