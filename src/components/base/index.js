@@ -9,3 +9,4 @@ export { default as BaseCollapse } from './base-collapse.vue';
 export { default as BaseSelect } from './base-select.vue';
 export { default as BaseModal } from './base-modal.vue';
 export { default as BaseAlert } from './base-alert.vue';
+export { default as BaseToast } from './base-toast.vue';
