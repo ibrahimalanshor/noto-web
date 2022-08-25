@@ -10,6 +10,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "click-outside-vue3": "^4.0.1",
     "dayjs": "^1.11.5",
     "flowbite": "^1.5.2",
