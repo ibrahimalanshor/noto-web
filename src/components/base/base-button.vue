@@ -68,8 +68,9 @@ const buttonClass = computed(() => {
   const colorClass = colors[props.color] ?? colors.default;
   const sizeClass = sizes[props.size] ?? sizes.md;
   const outlineClass = props.outline ? 'bg-transparent' : '';
+  const disabledClass = 'disabled:opacity-50';
 
-  return [blockClass, colorClass, sizeClass, outlineClass];
+  return [blockClass, colorClass, sizeClass, outlineClass, disabledClass];
 });
 
 const badgeClass = computed(() => {
@@ -86,7 +87,6 @@ const badgeClass = computed(() => {
   };
 
   const colorClass = colors[props.color] ?? colors.default;
-
   return [colorClass];
 });
 </script>
