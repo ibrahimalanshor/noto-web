@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import jwt_decode from 'jwt-decode';
 
 export default defineStore('auth', {
   persist: true,
@@ -10,9 +11,9 @@ export default defineStore('auth', {
     },
   }),
   getters: {
-    decoded: (state) => jwt_decode(state.accessToken),
+    decoded: (state) => jwt_decode(state.token.accessToken),
     expired: function (state) {
-      return new Date() > new Date(this.decoded.expireAt * 1000);
+      return new Date('2022-08-26') > new Date(this.decoded.exp * 1000);
     },
   },
   actions: {
@@ -28,6 +29,8 @@ export default defineStore('auth', {
     logout: function () {
       this.token.accessToken = null;
       this.token.refreshToken = null;
+
+      this.isLogin = false;
     },
   },
 });
