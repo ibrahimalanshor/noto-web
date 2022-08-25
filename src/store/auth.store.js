@@ -13,7 +13,7 @@ export default defineStore('auth', {
   getters: {
     decoded: (state) => jwt_decode(state.token.accessToken),
     expired: function (state) {
-      return new Date('2022-08-26') > new Date(this.decoded.exp * 1000);
+      return new Date() > new Date(this.decoded.exp * 1000);
     },
   },
   actions: {
