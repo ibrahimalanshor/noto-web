@@ -5,10 +5,16 @@ export default [
     path: '/',
     name: 'Home',
     component: () => import('@/views/home.vue'),
+    meta: {
+      requireAuth: true,
+    },
   },
   {
     path: '/note',
     component: RouterView,
+    meta: {
+      requireAuth: true,
+    },
     children: [
       {
         path: '',
@@ -43,10 +49,16 @@ export default [
     path: '/favorite',
     name: 'Favorite',
     component: () => import('@/views/favorite.vue'),
+    meta: {
+      requireAuth: true,
+    },
   },
   {
     path: '/tag',
     component: RouterView,
+    meta: {
+      requireAuth: true,
+    },
     children: [
       {
         path: '',
@@ -75,6 +87,9 @@ export default [
     path: '/profile',
     name: 'Profile',
     component: () => import('@/views/profile.vue'),
+    meta: {
+      requireAuth: true,
+    },
   },
   {
     path: '/login',
