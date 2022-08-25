@@ -15,6 +15,7 @@ export default () => {
 
   const login = async () => {
     loading.value = true;
+    error.value = null;
 
     try {
       const res = await authApi.login(credential);
@@ -35,13 +36,10 @@ export default () => {
     }
   };
 
-  const resetError = () => (error.value = null);
-
   return {
     error,
     credential,
     loading,
     login,
-    resetError,
   };
 };

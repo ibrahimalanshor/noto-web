@@ -38,13 +38,10 @@ export default () => {
     }
   };
 
-  const resetError = () => (error.value = null);
-
   return {
     error,
     credential,
     loading,
     register,
-    resetError,
   };
 };

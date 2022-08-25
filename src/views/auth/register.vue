@@ -11,11 +11,10 @@ import { useRegister } from '@/compose/auth';
 
 const router = useRouter();
 const toast = useToast();
-const { error, credential, loading, register, resetError } = useRegister();
+const { error, credential, loading, register } = useRegister();
 
 const hasError = computed(() => error.value?.status === 401);
 
-const handleCloseAlert = () => resetError();
 const handleSubmit = async () => {
   try {
     await register();
