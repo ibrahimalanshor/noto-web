@@ -8,17 +8,19 @@ export default () => {
 
   const error = ref();
   const credential = reactive({
+    name: null,
     email: null,
     password: null,
+    password_confirmation: null,
   });
   const loading = ref(false);
 
-  const login = async () => {
+  const register = async () => {
     loading.value = true;
     error.value = null;
 
     try {
-      const res = await authApi.login(credential);
+      const res = await authApi.register(credential);
 
       auth.login(res.data.token.accessToken, res.data.token.refreshToken);
     } catch (err) {
@@ -40,6 +42,6 @@ export default () => {
     error,
     credential,
     loading,
-    login,
+    register,
   };
 };

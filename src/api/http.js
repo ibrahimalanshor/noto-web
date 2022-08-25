@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useRouter } from 'vue-router';
+import router from '@/router';
 import { useAuth } from '@/store';
 import authApi from './auth.js';
 
@@ -9,17 +9,14 @@ export default () => {
   });
 
   instance.interceptors.request.use(async (config) => {
-    const router = useRouter();
     const auth = useAuth();
 
     if (auth.isLogin) {
       try {
         if (auth.expired) {
-          const accessTokenRefreshed = await authApi.refreshToken(
-            auth.token.refreshToken
-          );
+          const res = await authApi.refreshToken(auth.token.refreshToken);
 
-          auth.refreshToken(accessTokenRefreshed);
+          auth.refreshToken(res.data.accessToken);
         }
 
         config.headers.authorization = auth.token.accessToken;

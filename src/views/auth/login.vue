@@ -10,11 +10,10 @@ import { useLogin } from '@/compose/auth';
 
 const router = useRouter();
 const toast = useToast();
-const { error, credential, loading, login, resetError } = useLogin();
+const { error, credential, loading, login } = useLogin();
 
 const hasError = computed(() => error.value?.status === 401);
 
-const handleCloseAlert = () => resetError();
 const handleSubmit = async () => {
   try {
     await login();
@@ -30,12 +29,7 @@ const handleSubmit = async () => {
 
 <template>
   <layout-auth title="Sign in to your account">
-    <base-alert
-      color="danger"
-      :visible="hasError"
-      :text="error?.message"
-      v-on:close="handleCloseAlert"
-    />
+    <base-alert color="danger" :visible="hasError" :text="error?.message" />
     <form v-on:submit.prevent="handleSubmit">
       <base-form
         label="Email"

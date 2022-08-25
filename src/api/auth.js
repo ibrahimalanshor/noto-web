@@ -13,10 +13,10 @@ export default {
 
     return res.data;
   },
-  refreshToken: async function (accessToken) {
+  refreshToken: async function (refreshToken) {
     const res = await axios.post(
-      `${import.meta.env.API_URL}${this.baseURL}/refresh-token`,
-      { accessToken }
+      `${import.meta.env.VITE_API_URL}${this.baseURL}/refresh-token`,
+      { refreshToken }
     );
 
     return res.data;
