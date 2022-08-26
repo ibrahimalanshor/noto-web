@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { Icon } from '@vicons/utils';
 import { ArrowLeft as BackIcon } from '@vicons/carbon';
 import { LayoutApp } from '@/layouts';
@@ -8,25 +8,53 @@ import {
   BaseForm,
   BaseError,
   BaseSkeleton,
+  BaseAlert,
 } from '@/components/base';
 import { ProfileLogoutConfirm } from '@/components/profile';
+import { HandledError } from '@/interfaces';
 
-import { useGetProfile } from '@/compose/profile';
+import { useToast } from '@/store';
+import { useGetProfile, useUpdateProfile } from '@/compose/profile';
 
-const { loading, profile, getProfile } = useGetProfile();
+const toast = useToast();
+const { loading: getProfileLoading, profile, getProfile } = useGetProfile();
+const {
+  loading: updateProfileLoading,
+  error: updateProfileError,
+  body,
+  setBody,
+  updateProfile,
+} = useUpdateProfile();
 
 const profileLogoutConfirmVisible = ref(false);
-const error = ref(false);
+const getProfileError = ref(false);
+
+const updateProfileErrorState = computed(
+  () => updateProfileError.value?.status === 401
+);
 
 const setProfile = async () => {
   try {
     await getProfile();
+
+    setBody(profile.value);
   } catch (err) {
-    error.value = true;
+    getProfileError.value = true;
   }
 };
 
-const handleDeleteAll = () => {
+const handleSubmit = async () => {
+  try {
+    const res = await updateProfile(profile.value.id, body);
+
+    toast.show(res.message, 'success');
+  } catch (err) {
+    if (!(err instanceof HandledError)) {
+      toast.show('Something Error');
+    }
+  }
+};
+const handleClickLogout = () => {
   profileLogoutConfirmVisible.value = true;
 };
 
@@ -55,30 +83,65 @@ onMounted(() => {
         <base-button
           color="danger"
           label="Logout"
-          v-on:click="handleDeleteAll"
+          v-on:click="handleClickLogout"
         />
       </div>
     </div>
     <div class="p-5">
-      <base-skeleton class="mb-4" v-if="loading" />
+      <base-skeleton class="mb-4" v-if="getProfileLoading" />
       <template v-else>
         <base-error
-          v-if="error"
+          v-if="getProfileError"
           title="Something Error"
           text="Something error when displaying data"
         />
 
-        <form v-else>
-          <base-form label="Name" placeholder="Name" />
-          <base-form type="email" label="Email" placeholder="Email" disabled />
-          <base-form type="password" label="Password" placeholder="Password" />
+        <form v-on:submit.prevent="handleSubmit" v-else>
+          <base-alert
+            class="mb-4"
+            color="danger"
+            :visible="updateProfileErrorState"
+            :text="updateProfileError?.message"
+          />
+          <base-form
+            label="Name"
+            placeholder="Name"
+            :color="updateProfileError?.errors?.name ? 'danger' : ''"
+            :helper="updateProfileError?.errors?.name?.msg"
+            v-model="body.name"
+          />
+          <base-form
+            type="email"
+            label="Email"
+            placeholder="Email"
+            v-model="profile.email"
+            disabled
+          />
+          <base-form
+            type="password"
+            label="Password"
+            placeholder="Password"
+            :color="updateProfileError?.errors?.password ? 'danger' : ''"
+            :helper="updateProfileError?.errors?.password?.msg"
+            v-model="body.password"
+          />
           <base-form
             type="password"
             label="Password Confirmation"
             placeholder="Password Confirmation"
+            :color="
+              updateProfileError?.errors?.password_confirmation ? 'danger' : ''
+            "
+            :helper="updateProfileError?.errors?.password_confirmation?.msg"
+            v-model="body.password_confirmation"
           />
 
-          <base-button>Save</base-button>
+          <base-button
+            type="submit"
+            :disabled="updateProfileLoading"
+            :loading="updateProfileLoading"
+            >Save</base-button
+          >
         </form>
       </template>
     </div>
