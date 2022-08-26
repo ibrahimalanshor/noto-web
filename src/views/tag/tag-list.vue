@@ -21,8 +21,8 @@ const setTag = async () => {
     await getTag();
   } catch (err) {
     errorState.visible = true;
-    errorState.title = err.name;
-    errorState.text = err.message;
+    errorState.title = 'Something Error';
+    errorState.text = 'Something error when displaying data';
   }
 };
 
