@@ -1,26 +1,26 @@
 import { reactive, ref } from 'vue';
-import { auth as authApi } from '@/api';
-import { useAuth } from '@/store';
+import { profile as profileApi } from '@/api';
 import { HandledError } from '@/interfaces';
 
 export default () => {
-  const auth = useAuth();
-
   const error = ref();
-  const credential = reactive({
-    email: null,
-    password: null,
-  });
   const loading = ref(false);
+  const body = reactive({
+    name: null,
+    password: null,
+    password_confirmation: null,
+  });
 
-  const login = async () => {
+  const setBody = (val) => {
+    body.name = val.name;
+  };
+
+  const updateProfile = async () => {
     loading.value = true;
     error.value = null;
 
     try {
-      const res = await authApi.login(credential);
-
-      auth.login(res.data.token.accessToken, res.data.token.refreshToken);
+      return await profileApi.update(body);
     } catch (err) {
       if (err.response) {
         error.value = err.response.data;
@@ -36,10 +36,5 @@ export default () => {
     }
   };
 
-  return {
-    error,
-    credential,
-    loading,
-    login,
-  };
+  return { error, loading, body, setBody, updateProfile };
 };
