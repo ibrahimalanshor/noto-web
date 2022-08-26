@@ -6,7 +6,7 @@ export default () => {
     name: null,
     email: null,
   });
-  const loading = ref(false);
+  const loading = ref(true);
 
   const getProfile = async () => {
     loading.value = true;

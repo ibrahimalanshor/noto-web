@@ -1,4 +1,3 @@
-export default function HandledError(message, errors) {
-  this.message = message;
+export default function HandledError(errors) {
   this.errors = errors;
 }

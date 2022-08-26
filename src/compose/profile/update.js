@@ -3,7 +3,7 @@ import { profile as profileApi } from '@/api';
 import { HandledError } from '@/interfaces';
 
 export default () => {
-  const error = ref();
+  const validation = ref();
   const loading = ref(false);
   const body = reactive({
     name: null,
@@ -17,15 +17,19 @@ export default () => {
 
   const updateProfile = async () => {
     loading.value = true;
-    error.value = null;
+    validation.value = null;
 
     try {
       return await profileApi.update(body);
     } catch (err) {
       if (err.response) {
-        error.value = err.response.data;
+        const { status, errors } = err.response.data;
 
-        if ([422, 401].includes(err.response.data.status)) {
+        if (status === 422) {
+          validation.value = errors;
+        }
+
+        if ([422].includes(status)) {
           throw new HandledError(err.response.data);
         }
       }
@@ -36,5 +40,5 @@ export default () => {
     }
   };
 
-  return { error, loading, body, setBody, updateProfile };
+  return { validation, loading, body, setBody, updateProfile };
 };

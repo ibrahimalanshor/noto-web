@@ -1,11 +1,11 @@
 <script setup>
 const props = defineProps({
   title: {
-    type: String,
+    type: null,
     required: true,
   },
   text: {
-    type: String,
+    type: null,
     required: true,
   },
 });

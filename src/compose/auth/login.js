@@ -6,7 +6,7 @@ import { HandledError } from '@/interfaces';
 export default () => {
   const auth = useAuth();
 
-  const error = ref();
+  const validation = ref();
   const credential = reactive({
     email: null,
     password: null,
@@ -15,7 +15,7 @@ export default () => {
 
   const login = async () => {
     loading.value = true;
-    error.value = null;
+    validation.value = null;
 
     try {
       const res = await authApi.login(credential);
@@ -23,9 +23,13 @@ export default () => {
       auth.login(res.data.token.accessToken, res.data.token.refreshToken);
     } catch (err) {
       if (err.response) {
-        error.value = err.response.data;
+        const { status, errors } = err.response.data;
 
-        if ([422, 401].includes(err.response.data.status)) {
+        if (status === 422) {
+          validation.value = errors;
+        }
+
+        if ([422, 404, 401].includes(status)) {
           throw new HandledError(err.response.data);
         }
       }
@@ -37,7 +41,7 @@ export default () => {
   };
 
   return {
-    error,
+    validation,
     credential,
     loading,
     login,

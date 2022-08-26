@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, reactive } from 'vue';
 import { LayoutAuth } from '@/layouts';
 import { BaseForm, BaseButton, BaseAlert } from '@/components/base';
 
@@ -11,9 +11,12 @@ import { useRegister } from '@/compose/auth';
 
 const router = useRouter();
 const toast = useToast();
-const { error, credential, loading, register } = useRegister();
+const { validation, credential, loading, register } = useRegister();
 
-const hasError = computed(() => error.value?.status === 401);
+const alert = reactive({
+  visible: false,
+  text: '',
+});
 
 const handleSubmit = async () => {
   try {
@@ -23,6 +26,9 @@ const handleSubmit = async () => {
   } catch (err) {
     if (!(err instanceof HandledError)) {
       toast.show('Something Error');
+    } else if (err.errors.status === 409) {
+      alert.visible = true;
+      alert.text = err.errors.message;
     }
   }
 };
@@ -30,37 +36,37 @@ const handleSubmit = async () => {
 
 <template>
   <layout-auth title="Create your Free Account">
-    <base-alert color="danger" :text="error?.message" :visible="hasError" />
+    <base-alert color="danger" :text="alert.message" v-model="alert.visible" />
     <form v-on:submit.prevent="handleSubmit">
       <base-form
         label="Name"
         placeholder="Name"
-        :color="error?.errors?.name ? 'danger' : ''"
-        :helper="error?.errors?.name?.msg"
+        :color="validation?.name ? 'danger' : ''"
+        :helper="validation?.name?.msg"
         v-model="credential.name"
       />
       <base-form
         label="Email"
         placeholder="Email"
         type="email"
-        :color="error?.errors?.email ? 'danger' : ''"
-        :helper="error?.errors?.email?.msg"
+        :color="validation?.email ? 'danger' : ''"
+        :helper="validation?.email?.msg"
         v-model="credential.email"
       />
       <base-form
         label="Password"
         placeholder="Password"
         type="Password"
-        :color="error?.errors?.password ? 'danger' : ''"
-        :helper="error?.errors?.password?.msg"
+        :color="validation?.password ? 'danger' : ''"
+        :helper="validation?.password?.msg"
         v-model="credential.password"
       />
       <base-form
         label="Password Confirmation"
         placeholder="Password Confirmation"
         type="password"
-        :color="error?.errors?.password_confirmation ? 'danger' : ''"
-        :helper="error?.errors?.password_confirmation?.msg"
+        :color="validation?.password_confirmation ? 'danger' : ''"
+        :helper="validation?.password_confirmation?.msg"
         v-model="credential.password_confirmation"
       />
       <base-button
