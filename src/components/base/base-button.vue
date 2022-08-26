@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import BaseSpin from './base-spin.vue';
 
 const props = defineProps({
   color: {
@@ -16,6 +17,10 @@ const props = defineProps({
     default: false,
   },
   block: {
+    type: Boolean,
+    default: false,
+  },
+  loading: {
     type: Boolean,
     default: false,
   },
@@ -93,6 +98,7 @@ const badgeClass = computed(() => {
 
 <template>
   <button type="button" :class="buttonClass">
+    <base-spin class="mr-2" v-if="props.loading" />
     <slot>
       {{ props.label }}
     </slot>

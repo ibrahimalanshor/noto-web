@@ -10,3 +10,4 @@ export { default as BaseSelect } from './base-select.vue';
 export { default as BaseModal } from './base-modal.vue';
 export { default as BaseAlert } from './base-alert.vue';
 export { default as BaseToast } from './base-toast.vue';
+export { default as BaseSpin } from './base-spin.vue';
