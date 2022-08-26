@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { reactive, computed } from 'vue';
 import { LayoutAuth } from '@/layouts';
 import { BaseForm, BaseButton, BaseAlert } from '@/components/base';
 import { HandledError } from '@/interfaces';
@@ -10,9 +10,12 @@ import { useLogin } from '@/compose/auth';
 
 const router = useRouter();
 const toast = useToast();
-const { error, credential, loading, login } = useLogin();
+const { validation, credential, loading, login } = useLogin();
 
-const loginLoadingErrorState = computed(() => error.value?.status === 401);
+const alert = reactive({
+  visible: false,
+  text: '',
+});
 
 const handleSubmit = async () => {
   try {
@@ -22,6 +25,9 @@ const handleSubmit = async () => {
   } catch (err) {
     if (!(err instanceof HandledError)) {
       toast.show('Something Error');
+    } else if ([401, 404].includes(err.errors.status)) {
+      alert.visible = true;
+      alert.text = err.message;
     }
   }
 };
@@ -29,26 +35,22 @@ const handleSubmit = async () => {
 
 <template>
   <layout-auth title="Sign in to your account">
-    <base-alert
-      color="danger"
-      :visible="loginLoadingErrorState"
-      :text="error?.message"
-    />
+    <base-alert color="danger" :text="alert.message" v-model="alert.visible" />
     <form v-on:submit.prevent="handleSubmit">
       <base-form
         label="Email"
         type="email"
         placeholder="Email"
-        :color="error?.errors?.email ? 'danger' : ''"
-        :helper="error?.errors?.email?.msg"
+        :color="validation?.email ? 'danger' : ''"
+        :helper="validation?.email?.msg"
         v-model="credential.email"
       />
       <base-form
         label="Password"
         type="password"
         placeholder="Password"
-        :color="error?.errors?.password ? 'danger' : ''"
-        :helper="error?.errors?.password?.msg"
+        :color="validation?.password ? 'danger' : ''"
+        :helper="validation?.password?.msg"
         v-model="credential.password"
       />
       <base-button
