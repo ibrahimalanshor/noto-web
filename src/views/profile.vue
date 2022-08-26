@@ -19,18 +19,18 @@ import { useGetProfile, useUpdateProfile } from '@/compose/profile';
 const toast = useToast();
 const { loading: getProfileLoading, profile, getProfile } = useGetProfile();
 const {
-  loading: updateProfileLoading,
-  error: updateProfileError,
+  loading: profileUpdateLoading,
+  error: profileUpdateError,
   body,
   setBody,
   updateProfile,
 } = useUpdateProfile();
 
 const profileLogoutConfirmVisible = ref(false);
-const getProfileError = ref(false);
 
-const updateProfileErrorState = computed(
-  () => updateProfileError.value?.status === 401
+const profileGetErrorState = ref(false);
+const profileUpdateErrorState = computed(
+  () => profileUpdateError.value?.status === 401
 );
 
 const setProfile = async () => {
@@ -39,7 +39,7 @@ const setProfile = async () => {
 
     setBody(profile.value);
   } catch (err) {
-    getProfileError.value = true;
+    profileGetErrorState.value = true;
   }
 };
 
@@ -91,7 +91,7 @@ onMounted(() => {
       <base-skeleton class="mb-4" v-if="getProfileLoading" />
       <template v-else>
         <base-error
-          v-if="getProfileError"
+          v-if="profileGetErrorState"
           title="Something Error"
           text="Something error when displaying data"
         />
@@ -100,14 +100,14 @@ onMounted(() => {
           <base-alert
             class="mb-4"
             color="danger"
-            :visible="updateProfileErrorState"
-            :text="updateProfileError?.message"
+            :visible="profileUpdateErrorState"
+            :text="profileUpdateError?.message"
           />
           <base-form
             label="Name"
             placeholder="Name"
-            :color="updateProfileError?.errors?.name ? 'danger' : ''"
-            :helper="updateProfileError?.errors?.name?.msg"
+            :color="profileUpdateError?.errors?.name ? 'danger' : ''"
+            :helper="profileUpdateError?.errors?.name?.msg"
             v-model="body.name"
           />
           <base-form
@@ -121,8 +121,8 @@ onMounted(() => {
             type="password"
             label="Password"
             placeholder="Password"
-            :color="updateProfileError?.errors?.password ? 'danger' : ''"
-            :helper="updateProfileError?.errors?.password?.msg"
+            :color="profileUpdateError?.errors?.password ? 'danger' : ''"
+            :helper="profileUpdateError?.errors?.password?.msg"
             v-model="body.password"
           />
           <base-form
@@ -130,16 +130,16 @@ onMounted(() => {
             label="Password Confirmation"
             placeholder="Password Confirmation"
             :color="
-              updateProfileError?.errors?.password_confirmation ? 'danger' : ''
+              profileUpdateError?.errors?.password_confirmation ? 'danger' : ''
             "
-            :helper="updateProfileError?.errors?.password_confirmation?.msg"
+            :helper="profileUpdateError?.errors?.password_confirmation?.msg"
             v-model="body.password_confirmation"
           />
 
           <base-button
             type="submit"
-            :disabled="updateProfileLoading"
-            :loading="updateProfileLoading"
+            :disabled="profileUpdateLoading"
+            :loading="profileUpdateLoading"
             >Save</base-button
           >
         </form>

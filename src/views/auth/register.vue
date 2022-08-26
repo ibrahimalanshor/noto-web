@@ -13,7 +13,7 @@ const router = useRouter();
 const toast = useToast();
 const { error, credential, loading, register } = useRegister();
 
-const hasError = computed(() => error.value?.status === 401);
+const registerLoadingErrorState = computed(() => error.value?.status === 401);
 
 const handleSubmit = async () => {
   try {
@@ -30,7 +30,11 @@ const handleSubmit = async () => {
 
 <template>
   <layout-auth title="Create your Free Account">
-    <base-alert color="danger" :text="error?.message" :visible="hasError" />
+    <base-alert
+      color="danger"
+      :text="error?.message"
+      :visible="registerLoadingErrorState"
+    />
     <form v-on:submit.prevent="handleSubmit">
       <base-form
         label="Name"

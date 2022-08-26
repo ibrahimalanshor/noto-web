@@ -12,7 +12,7 @@ const router = useRouter();
 const toast = useToast();
 const { error, credential, loading, login } = useLogin();
 
-const hasError = computed(() => error.value?.status === 401);
+const loginLoadingErrorState = computed(() => error.value?.status === 401);
 
 const handleSubmit = async () => {
   try {
@@ -29,7 +29,11 @@ const handleSubmit = async () => {
 
 <template>
   <layout-auth title="Sign in to your account">
-    <base-alert color="danger" :visible="hasError" :text="error?.message" />
+    <base-alert
+      color="danger"
+      :visible="loginLoadingErrorState"
+      :text="error?.message"
+    />
     <form v-on:submit.prevent="handleSubmit">
       <base-form
         label="Email"
