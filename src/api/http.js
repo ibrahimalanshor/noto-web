@@ -1,7 +1,7 @@
 import axios from 'axios';
 import router from '@/router';
 import { useAuth } from '@/store';
-import authApi from './auth.js';
+import { auth as authApi } from '@/api';
 
 export default () => {
   const instance = axios.create({
@@ -13,7 +13,7 @@ export default () => {
 
     if (auth.isLogin) {
       try {
-        if (auth.expired) {
+        if (new Date() > new Date(auth.decoded.exp * 1000)) {
           const res = await authApi.refreshToken(auth.token.refreshToken);
 
           auth.refreshToken(res.data.accessToken);
