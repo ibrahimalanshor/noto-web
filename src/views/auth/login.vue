@@ -53,6 +53,7 @@ const handleSubmit = async () => {
         class="mb-4"
         block
         :disabled="loading"
+        :loading="loading"
       />
       <p
         class="text-center text-sm font-light text-gray-500 dark:text-gray-400"
