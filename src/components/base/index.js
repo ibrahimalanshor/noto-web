@@ -11,6 +11,5 @@ export { default as BaseModal } from './base-modal.vue';
 export { default as BaseAlert } from './base-alert.vue';
 export { default as BaseToast } from './base-toast.vue';
 export { default as BaseSpin } from './base-spin.vue';
-export { default as BaseError } from './base-error.vue';
 export { default as BaseSkeleton } from './base-skeleton.vue';
 export { default as BaseState } from './base-state.vue';
