@@ -1,7 +1,6 @@
 import { ref } from 'vue';
 import { auth as authApi } from '@/api';
 import { useAuth } from '@/store';
-import { HandledError } from '../../interfaces';
 
 export default () => {
   const auth = useAuth();
