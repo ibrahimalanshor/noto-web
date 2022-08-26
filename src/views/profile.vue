@@ -16,7 +16,7 @@ import { useToast } from '@/store';
 import { useGetProfile, useUpdateProfile } from '@/compose/profile';
 
 const toast = useToast();
-const { loading: getProfileLoading, profile, getProfile } = useGetProfile();
+const { loading: profileGetLoading, profile, getProfile } = useGetProfile();
 const {
   loading: profileUpdateLoading,
   validation,
@@ -89,7 +89,7 @@ onMounted(() => {
       </div>
     </div>
     <div class="p-5">
-      <base-skeleton class="mb-4" v-if="getProfileLoading" />
+      <base-skeleton class="mb-4" v-if="profileGetLoading" />
       <template v-else>
         <base-state
           v-if="errorState.visible"
