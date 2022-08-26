@@ -2,7 +2,10 @@ import { ref } from 'vue';
 import { profile as profileApi } from '@/api';
 
 export default () => {
-  const profile = ref();
+  const profile = ref({
+    name: null,
+    email: null,
+  });
   const loading = ref(false);
 
   const getProfile = async () => {
