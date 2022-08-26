@@ -4,7 +4,6 @@ import { LayoutApp } from '@/layouts';
 import { HeaderMenu } from '@/components/layouts/headers';
 import { BaseButton, BaseState, BaseSkeleton } from '@/components/base';
 import { TagCreateModal } from '@/components/tag';
-import { HandledError } from '@/interfaces';
 
 import { useGetTag } from '@/compose/tag';
 
@@ -21,15 +20,9 @@ const setTag = async () => {
   try {
     await getTag();
   } catch (err) {
-    if (!(err instanceof HandledError)) {
-      errorState.visible = true;
-      (errorState.title = 'Something Error'),
-        (errorState.text = 'Something error when displaying data');
-    } else {
-      errorState.visible = true;
-      errorState.title = err.name;
-      errorState.text = err.message;
-    }
+    errorState.visible = true;
+    errorState.title = err.name;
+    errorState.text = err.message;
   }
 };
 
