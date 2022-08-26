@@ -25,6 +25,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  confirmLoading: {
+    type: Boolean,
+    default: false,
+  },
 });
 const emit = defineEmits(['update:modelValue', 'close', 'confirm']);
 
@@ -92,6 +96,7 @@ watch(
                   :label="props.confirmText"
                   v-on:click="handleConfirm"
                   :disabled="props.confirmDisabled"
+                  :loading="props.confirmLoading"
                 />
               </slot>
               <slot name="cancel">
