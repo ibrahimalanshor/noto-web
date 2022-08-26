@@ -46,6 +46,7 @@ watch(
   <base-confirm
     text="Logout from your account?"
     :confirm-disabled="loading"
+    :confirm-loading="loading"
     v-model="visible"
     v-on:close="handleClose"
     v-on:confirm="handleConfirm"
