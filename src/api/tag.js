@@ -2,8 +2,10 @@ import http from './http.js';
 
 export default {
   baseURL: '/tags',
-  get: async function () {
-    const res = await http().get(this.baseURL);
+  get: async function (query) {
+    const res = await http().get(this.baseURL, {
+      params: query,
+    });
 
     return res.data;
   },
