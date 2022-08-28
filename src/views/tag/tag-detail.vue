@@ -169,6 +169,6 @@ onMounted(() => {
       v-on:updated="handleUpdated"
       v-model="tagEditModalVisible"
     />
-    <tag-delete-confirm v-model="tagDeleteConfirmVisible" />
+    <tag-delete-confirm :tag="tag" v-model="tagDeleteConfirmVisible" />
   </layout-app>
 </template>
