@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import { tag as tagApi } from '@/api';
 
 export default () => {
@@ -7,12 +7,23 @@ export default () => {
     count: 0,
     rows: [],
   });
+  const filter = reactive({
+    name: null,
+    sort: null,
+    order: null,
+  });
+
+  const resetFilter = () => {
+    filter.name = null;
+    filter.sort = null;
+    filter.order = null;
+  };
 
   const getTag = async () => {
     loading.value = true;
 
     try {
-      const res = await tagApi.get();
+      const res = await tagApi.get(filter);
 
       tag.value = res.data;
     } catch (err) {
@@ -22,5 +33,5 @@ export default () => {
     }
   };
 
-  return { loading, tag, getTag };
+  return { loading, tag, filter, resetFilter, getTag };
 };
