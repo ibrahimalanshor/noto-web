@@ -51,6 +51,13 @@ const handleChangeFilter = ({ sort, order }) => {
 
   emit('filter', filter);
 };
+const handleResetFilter = () => {
+  filter.name = null;
+  filter.sort = null;
+  filter.order = null;
+
+  emit('filter', filter);
+};
 
 watch(
   props.filter,
@@ -81,6 +88,7 @@ watch(
       <header-filter
         :filter="filter"
         v-on:change="handleChangeFilter"
+        v-on:reset="handleResetFilter"
         v-if="props.filterable"
       />
       <div v-if="props.creatable">

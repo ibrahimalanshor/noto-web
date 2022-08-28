@@ -47,7 +47,8 @@ const handleSearch = (val) => {
 
   setTagDebounce();
 };
-const handleFilter = ({ sort, order }) => {
+const handleFilter = ({ name, sort, order }) => {
+  filter.name = name;
   filter.sort = sort;
   filter.order = order;
 
