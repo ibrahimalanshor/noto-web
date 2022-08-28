@@ -14,11 +14,11 @@ const props = defineProps({
     default: false,
   },
   tag: {
-    type: Object,
+    type: null,
     required: true,
   },
 });
-const emit = defineEmits(['update:modelValue', 'close']);
+const emit = defineEmits(['update:modelValue', 'close', 'updated']);
 
 const toast = useToast();
 const { body, validation, loading, setBody, resetValidation, updateTag } =
