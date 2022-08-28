@@ -12,7 +12,7 @@ import { Filter as FilterIcon } from '@vicons/carbon';
 const props = defineProps({
   filter: Object,
 });
-const emit = defineEmits(['change']);
+const emit = defineEmits(['change', 'reset']);
 
 const filter = reactive({
   sort: props.filter?.sort ?? null,
@@ -58,12 +58,18 @@ const orderOptions = [
 const handleChange = () => {
   emit('change', filter);
 };
+const handleClickReset = () => {
+  filter.sort = null;
+  filter.order = null;
+
+  emit('reset', filter);
+};
 
 watch(
   props.filter,
   () => {
-    (filter.sort = props.filter?.sort ?? null),
-      (filter.order = props.filter?.order ?? null);
+    filter.sort = props.filter?.sort ?? null;
+    filter.order = props.filter?.order ?? null;
   },
   { deep: true }
 );
@@ -118,6 +124,15 @@ watch(
                 v-on:change="handleChange"
               ></base-select>
             </base-collapse>
+          </li>
+          <li class="block py-2 px-4">
+            <base-button
+              label="Reset"
+              color="danger"
+              size="sm"
+              block
+              v-on:click="handleClickReset"
+            />
           </li>
         </ul>
       </div>
