@@ -1,7 +1,12 @@
 <script setup>
-import { ref, watch } from 'vue';
-import { BaseModal, BaseButton } from '@/components/base';
+import { ref, reactive, watch } from 'vue';
+import { BaseModal, BaseButton, BaseAlert } from '@/components/base';
 import TagForm from './tag-form.vue';
+
+import { HandledError } from '@/interfaces';
+
+import { useToast } from '@/store';
+import { useUpdateTag } from '@/compose/tag';
 
 const props = defineProps({
   modelValue: {
@@ -15,11 +20,34 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:modelValue', 'close']);
 
+const toast = useToast();
+const { body, validation, loading, setBody, resetValidation, updateTag } =
+  useUpdateTag();
+
+const alert = reactive({
+  visible: false,
+  text: '',
+});
 const visible = ref(props.modelValue);
 
 const handleClose = () => {
   emit('close');
   emit('update:modelValue', false);
+};
+const handleSave = async () => {
+  try {
+    const res = await updateTag(props.tag.id);
+
+    emit('updated');
+    emit('update:modelValue', false);
+
+    toast.show(res.message, 'success');
+  } catch (err) {
+    if (!(err instanceof HandledError)) {
+      alert.visible = true;
+      alert.text = 'Something Error';
+    }
+  }
 };
 
 watch(
@@ -28,6 +56,17 @@ watch(
     visible.value = props.modelValue;
   }
 );
+
+watch(visible, () => {
+  if (visible.value) {
+    setBody({
+      name: props.tag.name,
+      color: props.tag.color,
+    });
+
+    resetValidation();
+  }
+});
 </script>
 
 <template>
@@ -37,11 +76,17 @@ watch(
     v-model="visible"
     v-on:close="handleClose"
   >
-    <tag-form />
+    <base-alert color="danger" :text="alert.text" v-model="alert.visible" />
+    <tag-form :validation="validation" v-model="body" />
 
     <template #footer="{ close }">
       <base-button color="light" v-on:click="close">Cancel</base-button>
-      <base-button>Save</base-button>
+      <base-button
+        v-on:click="handleSave"
+        :disabled="loading"
+        :loading="loading"
+        >Save</base-button
+      >
     </template>
   </base-modal>
 </template>

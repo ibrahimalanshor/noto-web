@@ -87,13 +87,14 @@ const handleCreateNote = () => {
     query: { back: tag.value ? route.fullPath : '/tag' },
   });
 };
-
 const handleEdit = () => {
   tagEditModalVisible.value = true;
 };
-
 const handleDelete = () => {
   tagDeleteConfirmVisible.value = true;
+};
+const handleUpdated = () => {
+  setTag();
 };
 
 onMounted(() => {
@@ -164,13 +165,9 @@ onMounted(() => {
       </template>
     </div>
     <tag-edit-modal
+      :tag="tag"
+      v-on:updated="handleUpdated"
       v-model="tagEditModalVisible"
-      :tag="{
-        id: 1,
-        name: 'General',
-        color: 'primary',
-        notesCount: 16,
-      }"
     />
     <tag-delete-confirm v-model="tagDeleteConfirmVisible" />
   </layout-app>
