@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { LayoutApp } from '@/layouts';
-import { BaseButton } from '@/components/base';
+import { BaseButton, BaseState, BaseSkeleton } from '@/components/base';
 import { Icon } from '@vicons/utils';
 import {
   Edit as EditIcon,
@@ -11,12 +11,23 @@ import {
 import { HeaderMenu } from '@/components/layouts/headers';
 import { TagEditModal, TagDeleteConfirm } from '@/components/tag';
 import { NoteItem } from '@/components/note';
-import { useRouter } from 'vue-router';
+
+import { HandledError } from '@/interfaces';
+
+import { useRouter, useRoute } from 'vue-router';
+import { useFindTag } from '@/compose/tag';
 
 const router = useRouter();
+const route = useRoute();
+const { tag, loading, findTag } = useFindTag();
 
 const tagEditModalVisible = ref(false);
 const tagDeleteConfirmVisible = ref(false);
+const errorState = reactive({
+  visible: false,
+  title: null,
+  text: null,
+});
 
 const notes = [
   {
@@ -54,8 +65,27 @@ const notes = [
   },
 ];
 
+const setTag = async () => {
+  try {
+    await findTag(route.params.id);
+  } catch (err) {
+    if (!(err instanceof HandledError)) {
+      errorState.visible = true;
+      errorState.title = 'Something Error';
+      errorState.text = 'Something error when displaying data';
+    } else {
+      errorState.visible = true;
+      errorState.title = err.errors.name;
+      errorState.text = err.errors.message;
+    }
+  }
+};
+
 const handleCreateNote = () => {
-  router.push({ name: 'NoteCreate' });
+  router.push({
+    name: 'NoteCreate',
+    query: { back: tag.value ? route.fullPath : '/tag' },
+  });
 };
 
 const handleEdit = () => {
@@ -65,6 +95,10 @@ const handleEdit = () => {
 const handleDelete = () => {
   tagDeleteConfirmVisible.value = true;
 };
+
+onMounted(() => {
+  setTag();
+});
 </script>
 
 <template>
@@ -84,9 +118,11 @@ const handleDelete = () => {
               </icon>
             </button>
           </router-link>
-          <h1 class="font-bold text-3xl text-gray-900">Tags: General</h1>
+          <h1 class="font-bold text-3xl text-gray-900" v-if="tag">
+            Tags: {{ tag.name }}
+          </h1>
         </div>
-        <div class="flex space-x-2">
+        <div class="flex space-x-2" v-if="tag">
           <base-button
             color="primary"
             class="flex items-center"
@@ -109,12 +145,23 @@ const handleDelete = () => {
       </div>
     </div>
     <div>
-      <note-item
-        v-for="note in notes"
-        :key="note.id"
-        :note="note"
-        back-route="/tag/1"
-      />
+      <div class="p-5" v-if="loading">
+        <base-skeleton />
+      </div>
+      <template v-else>
+        <base-state
+          :title="errorState.title"
+          :text="errorState.text"
+          v-if="errorState.visible"
+        />
+        <note-item
+          v-for="note in notes"
+          :key="note.id"
+          :note="note"
+          back-route="/tag/1"
+          v-else
+        />
+      </template>
     </div>
     <tag-edit-modal
       v-model="tagEditModalVisible"
