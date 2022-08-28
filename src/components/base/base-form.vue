@@ -25,7 +25,7 @@ const props = defineProps({
   helper: String,
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'change']);
 
 const value = ref(props.modelValue);
 
@@ -53,6 +53,7 @@ const helperClass = computed(() => {
 
 const handleChange = () => {
   emit('update:modelValue', value.value);
+  emit('change', value.value);
 };
 
 watch(

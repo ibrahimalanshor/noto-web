@@ -8,10 +8,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  visible: {
-    type: Boolean,
-    default: false,
-  },
   text: String,
   color: {
     type: String,
@@ -20,7 +16,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:modelValue', 'close']);
 
-const visible = ref(props.visible ?? props.modelValue);
+const visible = ref(props.modelValue);
 
 const alertClass = computed(() => {
   const colors = {
@@ -68,13 +64,6 @@ watch(
   () => props.modelValue,
   () => {
     visible.value = props.modelValue;
-  }
-);
-
-watch(
-  () => props.visible,
-  () => {
-    visible.value = props.visible;
   }
 );
 </script>
