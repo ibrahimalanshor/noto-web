@@ -1,4 +1,5 @@
 <script setup>
+import { ref, reactive, watch } from 'vue';
 import { LayoutApp } from '@/layouts';
 import { BaseInput, BaseButton, BaseDropdown } from '@/components/base';
 import HeaderFilter from './header-filter.vue';
@@ -7,6 +8,7 @@ import { Menu as MenuIcon, Add as NewIcon } from '@vicons/carbon';
 import { useSidebar } from '@/store';
 
 const props = defineProps({
+  filter: Object,
   searchPlaceholder: {
     type: String,
     default: 'Search Something',
@@ -24,9 +26,15 @@ const props = defineProps({
     default: true,
   },
 });
-const emit = defineEmits(['create']);
+const emit = defineEmits(['create', 'search', 'filter']);
 
 const sidebar = useSidebar();
+
+const filter = reactive({
+  name: props.filter?.name,
+  sort: props.filter?.sort,
+  order: props.filter?.order,
+});
 
 const handleClickMenu = () => {
   sidebar.show();
@@ -34,6 +42,25 @@ const handleClickMenu = () => {
 const handleCreate = () => {
   emit('create');
 };
+const handleInputSearch = () => {
+  emit('search', filter.name);
+};
+const handleChangeFilter = ({ sort, order }) => {
+  filter.sort = sort;
+  filter.order = order;
+
+  emit('filter', filter);
+};
+
+watch(
+  props.filter,
+  () => {
+    filter.name = props.filter?.name;
+    filter.sort = props.filter?.sort;
+    filter.order = props.filter?.order;
+  },
+  { deep: true }
+);
 </script>
 
 <template>
@@ -45,9 +72,17 @@ const handleCreate = () => {
     </button>
     <div class="flex flex-grow space-x-4">
       <div class="flex-grow">
-        <base-input :placeholder="props.searchPlaceholder" />
+        <base-input
+          :placeholder="props.searchPlaceholder"
+          v-model="filter.name"
+          v-on:input="handleInputSearch"
+        />
       </div>
-      <header-filter v-if="props.filterable" />
+      <header-filter
+        :filter="filter"
+        v-on:change="handleChangeFilter"
+        v-if="props.filterable"
+      />
       <div v-if="props.creatable">
         <base-button
           class="hidden md:block"

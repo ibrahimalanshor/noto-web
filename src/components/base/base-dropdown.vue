@@ -33,7 +33,7 @@ const handleClickOutside = () => hide();
 <template>
   <div class="relative" v-click-outside="handleClickOutside">
     <slot name="toggle" :toggle="handleToggle" />
-    <slot>
+    <slot name="content" :content-class="menuClass">
       <div
         id="dropdown"
         class="absolute top-12 z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700"

@@ -4,10 +4,17 @@ import { LayoutApp } from '@/layouts';
 import { HeaderMenu } from '@/components/layouts/headers';
 import { BaseButton, BaseState, BaseSkeleton } from '@/components/base';
 import { TagCreateModal } from '@/components/tag';
+import { debounce } from '@/utils';
 
 import { useGetTag } from '@/compose/tag';
 
-const { loading: tagGetLoading, tag: tagData, getTag } = useGetTag();
+const {
+  loading: tagGetLoading,
+  tag: tagData,
+  filter,
+  resetFilter,
+  getTag,
+} = useGetTag();
 
 const tagCreateModalVisible = ref(false);
 const errorState = reactive({
@@ -26,10 +33,24 @@ const setTag = async () => {
   }
 };
 
+const setTagDebounce = debounce(setTag);
+
 const handleCreate = () => {
   tagCreateModalVisible.value = true;
 };
 const handleCreated = () => {
+  resetFilter();
+  setTag();
+};
+const handleSearch = (val) => {
+  filter.name = val;
+
+  setTagDebounce();
+};
+const handleFilter = ({ sort, order }) => {
+  filter.sort = sort;
+  filter.order = order;
+
   setTag();
 };
 
@@ -45,6 +66,9 @@ onMounted(() => {
         class="mb-6"
         search-placeholder="Search Tags"
         create-label="New Tag"
+        :filter="filter"
+        v-on:search="handleSearch"
+        v-on:filter="handleFilter"
         v-on:create="handleCreate"
       />
       <h1 class="font-bold text-3xl text-gray-900">Tags</h1>

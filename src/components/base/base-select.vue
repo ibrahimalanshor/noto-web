@@ -1,13 +1,17 @@
 <script setup>
-import { computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 
 const props = defineProps({
+  modelValue: null,
   options: Array,
   size: {
     type: String,
     default: 'md',
   },
 });
+const emit = defineEmits(['update:modelValue', 'change']);
+
+const value = ref(props.modelValue);
 
 const selectClass = computed(() => {
   const sizes = {
@@ -18,10 +22,22 @@ const selectClass = computed(() => {
 
   return [sizes[props.size] ?? sizes.md];
 });
+
+const handleChange = () => {
+  emit('update:modelValue', value.value);
+  emit('change', value.value);
+};
+
+watch(
+  () => props.modelValue,
+  () => {
+    value.value = props.modelValue;
+  }
+);
 </script>
 
 <template>
-  <select :class="selectClass">
+  <select :class="selectClass" v-model="value" v-on:change="handleChange">
     <option v-for="option in options" :key="option.key" :value="option.value">
       {{ option.label }}
     </option>
