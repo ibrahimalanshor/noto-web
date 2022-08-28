@@ -29,6 +29,9 @@ const setTag = async () => {
 const handleCreate = () => {
   tagCreateModalVisible.value = true;
 };
+const handleCreated = () => {
+  setTag();
+};
 
 onMounted(() => {
   setTag();
@@ -79,6 +82,9 @@ onMounted(() => {
         </template>
       </template>
     </div>
-    <tag-create-modal v-model="tagCreateModalVisible" />
+    <tag-create-modal
+      v-model="tagCreateModalVisible"
+      v-on:created="handleCreated"
+    />
   </layout-app>
 </template>
