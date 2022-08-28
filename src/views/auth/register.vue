@@ -36,7 +36,7 @@ const handleSubmit = async () => {
 
 <template>
   <layout-auth title="Create your Free Account">
-    <base-alert color="danger" :text="alert.message" v-model="alert.visible" />
+    <base-alert color="danger" :text="alert.text" v-model="alert.visible" />
     <form v-on:submit.prevent="handleSubmit">
       <base-form
         label="Name"
