@@ -29,4 +29,11 @@ export default {
 
     return res.data;
   },
+  updateTrash: async function (id, isTrash) {
+    const res = await http().patch(`${this.baseURL}/${id}/is-trash`, {
+      isTrash,
+    });
+
+    return res.data;
+  },
 };
