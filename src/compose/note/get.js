@@ -8,6 +8,7 @@ export default () => {
     name: null,
     sort: null,
     order: null,
+    isTrash: null,
   });
 
   const getNote = async () => {
