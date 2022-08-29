@@ -72,7 +72,7 @@ watch(
 </script>
 
 <template>
-  <div class="fixed top-8 left-0 w-full px-4 md:px-0" v-if="visible">
+  <div class="fixed top-8 left-0 w-full px-4 z-50 md:px-0" v-if="visible">
     <div
       class="flex mx-auto items-center p-4 w-full max-w-xs text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
       role="alert"
