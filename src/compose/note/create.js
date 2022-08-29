@@ -6,6 +6,7 @@ export default () => {
   const body = ref({
     name: null,
     content: null,
+    tagId: null,
   });
   const validation = ref();
   const loading = ref(false);
@@ -14,6 +15,7 @@ export default () => {
     body.value = {
       name: null,
       content: null,
+      tagId: null,
     };
   };
 
@@ -27,7 +29,10 @@ export default () => {
     resetValidation();
 
     try {
-      return await noteApi.create(body.value);
+      return await noteApi.create({
+        ...body.value,
+        ...(body.value.tagId ? { tagId: body.value.tagId.id } : {}),
+      });
     } catch (err) {
       if (err.response) {
         const { status, errors } = err.response.data;

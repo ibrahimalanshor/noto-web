@@ -1,6 +1,7 @@
 <script setup>
 import { reactive, watch, onMounted } from 'vue';
-import { BaseForm, BaseTextarea } from '@/components/base';
+import { BaseForm, BaseTextarea, BaseAlert } from '@/components/base';
+import { TagSelectSearch } from '@/components/tag';
 
 const props = defineProps({
   modelValue: Object,
@@ -11,6 +12,11 @@ const emit = defineEmits(['update:modelValue', 'submit']);
 const form = reactive({
   name: null,
   content: null,
+  tagId: null,
+});
+const alert = reactive({
+  visible: false,
+  text: '',
 });
 
 const setForm = () => {
@@ -20,6 +26,10 @@ const setForm = () => {
 
 const handleChange = () => {
   emit('update:modelValue', form);
+};
+const handleErrorTag = (err) => {
+  alert.text = err.message;
+  alert.visible = true;
 };
 
 onMounted(() => setForm());
@@ -34,6 +44,12 @@ watch(
 
 <template>
   <div>
+    <base-alert
+      class="mb-4"
+      color="danger"
+      :text="alert.text"
+      v-model="alert.visible"
+    />
     <base-form
       type="text"
       placeholder="Title"
@@ -43,7 +59,17 @@ watch(
       v-model="form.name"
       v-on:change="handleChange"
     />
-    <base-form type="text" placeholder="Tags" label="Tags" />
+    <base-form
+      label="Tags"
+      :color="validation?.tagId ? 'danger' : ''"
+      :helper="validation?.tagId?.msg"
+    >
+      <tag-select-search
+        :color="validation?.tagId ? 'danger' : ''"
+        v-model="form.tagId"
+        v-on:error="handleErrorTag"
+      />
+    </base-form>
     <base-form
       label="Content"
       :color="validation?.content ? 'danger' : ''"
