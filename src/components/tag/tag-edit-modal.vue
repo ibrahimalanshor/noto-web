@@ -35,6 +35,8 @@ const handleClose = () => {
   emit('update:modelValue', false);
 };
 const handleSave = async () => {
+  alert.visible = false;
+
   try {
     const res = await updateTag(props.tag.id);
 

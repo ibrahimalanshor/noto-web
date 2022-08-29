@@ -18,6 +18,8 @@ const alert = reactive({
 });
 
 const handleSubmit = async () => {
+  alert.visible = false;
+
   try {
     await login();
 

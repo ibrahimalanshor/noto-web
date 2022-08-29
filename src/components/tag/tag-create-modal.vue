@@ -31,6 +31,8 @@ const handleClose = () => {
   emit('close');
 };
 const handleSave = async () => {
+  alert.visible = false;
+
   try {
     const res = await createTag();
 
