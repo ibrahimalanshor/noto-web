@@ -24,6 +24,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  fullLoading: {
+    type: Boolean,
+    default: false,
+  },
   badge: null,
 });
 
@@ -100,8 +104,11 @@ const badgeClass = computed(() => {
 
 <template>
   <button type="button" :class="buttonClass">
-    <base-spin class="mr-2" v-if="props.loading" />
-    <slot>
+    <base-spin
+      :class="[props.fullLoading ? 'mx-auto' : 'mr-2']"
+      v-if="props.loading"
+    />
+    <slot v-if="!props.fullLoading">
       {{ props.label }}
     </slot>
     <span :class="badgeClass" v-if="props.badge">
