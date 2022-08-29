@@ -81,7 +81,7 @@ onMounted(() => {
           </icon>
         </base-button>
         <router-link
-          :to="{ name: 'NoteEdit', params: { id: 1 } }"
+          :to="{ name: 'NoteEdit', params: { id: route.params.id } }"
           v-slot="{ navigate }"
         >
           <base-button
