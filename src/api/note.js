@@ -12,4 +12,9 @@ export default {
 
     return res.data;
   },
+  find: async function (id) {
+    const res = await http().get(`${this.baseURL}/${id}`);
+
+    return res.data;
+  },
 };
