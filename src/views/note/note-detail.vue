@@ -10,7 +10,7 @@ import {
   BaseState,
   BaseSkeleton,
 } from '@/components/base';
-import { NoteDeleteConfirm } from '@/components/note';
+import { NoteDeleteConfirm, NoteConfirmUpdateTrash } from '@/components/note';
 import { Icon } from '@vicons/utils';
 import {
   Star as FavoriteIcon,
@@ -35,6 +35,7 @@ const { loading: loadingUpdateNoteFavorite, updateNoteFavorite } =
   useUpdateNoteFavorite();
 
 const noteDeleteConfirmVisible = ref(false);
+const noteConfirmUpdateTrashVisible = ref(false);
 const errorState = reactive({
   visible: false,
   title: null,
@@ -56,9 +57,14 @@ const setNote = async () => {
     }
   }
 };
+const goBack = () => router.push(route.query.back || '/');
 
-const handleDelete = () => {
-  noteDeleteConfirmVisible.value = true;
+const handleClickDelete = () => {
+  if (note.value.isTrash) {
+    noteDeleteConfirmVisible.value = true;
+  } else {
+    noteConfirmUpdateTrashVisible.value = true;
+  }
 };
 const handleClickFavorite = async () => {
   try {
@@ -69,8 +75,11 @@ const handleClickFavorite = async () => {
     toast.show('Something Error');
   }
 };
+const handleSuccessUpdateTrash = () => {
+  goBack();
+};
 const handleBack = () => {
-  router.push(route.query.back || '/');
+  goBack();
 };
 
 onMounted(() => {
@@ -89,6 +98,12 @@ onMounted(() => {
         </button>
       </div>
       <div class="flex space-x-2" v-if="note">
+        <note-confirm-update-trash
+          :note="note"
+          v-model="noteConfirmUpdateTrashVisible"
+          v-on:success="handleSuccessUpdateTrash"
+        />
+        <note-delete-confirm :note="note" v-model="noteDeleteConfirmVisible" />
         <base-button
           class="flex items-center"
           color="warning"
@@ -119,7 +134,7 @@ onMounted(() => {
         <base-button
           class="flex items-center"
           color="danger"
-          v-on:click="handleDelete"
+          v-on:click="handleClickDelete"
         >
           <icon size="16">
             <trash-icon />
@@ -148,6 +163,5 @@ onMounted(() => {
         </div>
       </template>
     </div>
-    <note-delete-confirm v-model="noteDeleteConfirmVisible" />
   </layout-app>
 </template>
