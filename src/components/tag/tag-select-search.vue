@@ -20,6 +20,8 @@ const value = ref(props.modelValue);
 
 const setTag = async () => {
   try {
+    filter.sort = 'name';
+
     await getTag();
   } catch (err) {
     emit('error', new Error('Something Error'));
