@@ -91,7 +91,7 @@ watch(
 
 <style>
 .custom-v-select .vs__dropdown-toggle {
-  @apply p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:ring-blue-500 dark:focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed;
+  @apply py-2 px-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:ring-blue-500 dark:focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed;
 }
 .custom-v-select.vs--open {
   @apply ring-1 rounded-lg ring-blue-500 border-blue-500;

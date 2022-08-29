@@ -52,8 +52,8 @@ watch(
     />
     <base-form
       type="text"
-      placeholder="Title"
-      label="Title"
+      placeholder="Name"
+      label="Name"
       :color="validation?.name ? 'danger' : ''"
       :helper="validation?.name?.msg"
       v-model="form.name"
