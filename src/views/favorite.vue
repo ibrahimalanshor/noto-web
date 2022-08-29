@@ -1,50 +1,57 @@
 <script setup>
+import { reactive, onMounted } from 'vue';
 import { LayoutApp } from '@/layouts';
 import { HeaderMenu } from '@/components/layouts/headers';
 import { NoteItem } from '@/components/note';
+import { BaseState, BaseSkeleton } from '@/components/base';
+import { debounce } from '@/utils';
+
 import { useRouter } from 'vue-router';
+import { useGetNote } from '@/compose/note';
 
 const router = useRouter();
+const { note, loading, filter, getNote } = useGetNote();
 
-const notes = [
-  {
-    id: 1,
-    tag: {
-      color: 'primary',
-      name: 'Diary',
-    },
-    isFavorite: true,
-    createdAt: null,
-    title: 'Tailwind CSS Badges - Flowbite',
-    content:
-      'The badge component can be used to complement other elements such as buttons or text elements as a label or to show the count of a given data, such as the number of comments for an article or how much time has passed by since a comment has been made.',
-  },
-  {
-    id: 2,
-    tag: null,
-    isFavorite: true,
-    createdAt: new Date(),
-    title: 'Feature preview',
-    content:
-      'Quickly navigate and jump between your organizations or repositories and search recent issues, pull requests, projects and more with the new command palette. You can also execute time saving commands all without lifting your fingers off the keyboard!',
-  },
-  {
-    id: 3,
-    tag: {
-      color: 'danger',
-      name: 'Logs',
-    },
-    isFavorite: true,
-    createdAt: new Date(),
-    title: 'Reactivity for Arrays & Objects in Vue vs. Svelte',
-    content:
-      'Teleport is a new feature introduced in Vue 3. Teleport provides better control to developers on where exactly an element is rendered. Get Teleporting Let us create a new Vue 3 app to start playing around with teleport. We will use Vite, because it is 2021. 1 npm init @vitejs/app Provide a project name (teleport) and select vue as the template.Teleport is a new feature introduced in Vue 3. Teleport provides better control to developers on where exactly an element is rendered. Get Teleporting Let us create a new Vue 3 app to start playing around with teleport. We will use Vite, because it is 2021. 1 npm init @vitejs/app Provide a project name (teleport) and select vue as the template.Teleport is a new feature introduced in Vue 3. Teleport provides better control to developers on where exactly an element is rendered. Get Teleporting Let us create a new Vue 3 app to start playing around with teleport. We will use Vite, because it is 2021. 1 npm init @vitejs/app Provide a project name (teleport) and select vue as the template.Teleport is a new feature introduced in Vue 3. Teleport provides better control to developers on where exactly an element is rendered. Get Teleporting Let us create a new Vue 3 app to start playing around with teleport. We will use Vite, because it is 2021. 1 npm init @vitejs/app Provide a project name (teleport) and select vue as the template.',
-  },
-];
+const errorState = reactive({
+  visible: false,
+  title: null,
+  text: null,
+});
+
+const setNote = async () => {
+  try {
+    filter.isTrash = false;
+    filter.isFavorite = true;
+    filter.order = 'desc';
+
+    await getNote();
+  } catch (err) {
+    errorState.visible = true;
+    errorState.title = 'Something Error';
+    errorState.text = 'Something error when displaying data';
+  }
+};
+const setNoteDebounce = debounce(setNote);
 
 const handleCreate = () => {
   router.push({ name: 'NoteCreate' });
 };
+const handleSearch = (val) => {
+  filter.name = val;
+
+  setNoteDebounce();
+};
+const handleFilter = ({ name, sort, order }) => {
+  filter.name = name;
+  filter.sort = sort;
+  filter.order = order;
+
+  setNote();
+};
+
+onMounted(() => {
+  setNote();
+});
 </script>
 
 <template>
@@ -52,18 +59,36 @@ const handleCreate = () => {
     <div class="p-5 border-b">
       <header-menu
         class="mb-6"
-        create-label="New Favorite"
+        create-label="New Note"
+        :filter="filter"
+        v-on:search="handleSearch"
+        v-on:filter="handleFilter"
         v-on:create="handleCreate"
       />
       <h1 class="font-bold text-3xl text-gray-900">Favorite</h1>
     </div>
     <div>
-      <note-item
-        v-for="note in notes"
-        :key="note.id"
-        :note="note"
-        back-route="/favorite"
-      />
+      <div class="p-5" v-if="loading">
+        <base-skeleton />
+      </div>
+      <template v-else>
+        <base-state
+          :title="errorState.title"
+          :text="errorState.text"
+          v-if="errorState.visible"
+        />
+        <base-state
+          title="Favorite Note empty"
+          text="Crate New Empty"
+          v-else-if="note.count === 0"
+        ></base-state>
+        <note-item
+          v-for="note in note.rows"
+          :key="note.id"
+          :note="note"
+          v-else
+        />
+      </template>
     </div>
   </layout-app>
 </template>
