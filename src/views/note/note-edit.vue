@@ -61,7 +61,9 @@ const setNote = async () => {
   }
 };
 const goBack = () =>
-  router.push({ name: 'NoteDetail', params: { id: route.params.id } });
+  router.push(
+    route.query.back ?? { name: 'NoteDetail', params: { id: route.params.id } }
+  );
 
 const handleSubmit = async () => {
   alert.visible = false;

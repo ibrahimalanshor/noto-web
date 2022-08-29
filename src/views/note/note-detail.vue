@@ -118,7 +118,11 @@ onMounted(() => {
           </icon>
         </base-button>
         <router-link
-          :to="{ name: 'NoteEdit', params: { id: route.params.id } }"
+          :to="{
+            name: 'NoteEdit',
+            params: { id: route.params.id },
+            query: { back: route.fullPath },
+          }"
           v-slot="{ navigate }"
         >
           <base-button
