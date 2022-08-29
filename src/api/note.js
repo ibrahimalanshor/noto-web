@@ -17,4 +17,9 @@ export default {
 
     return res.data;
   },
+  update: async function (id, body) {
+    const res = await http().patch(`${this.baseURL}/${id}`, body);
+
+    return res.data;
+  },
 };

@@ -22,6 +22,7 @@ const alert = reactive({
 const setForm = () => {
   form.name = props.modelValue?.name ?? null;
   form.content = props.modelValue?.content ?? null;
+  form.tagId = props.modelValue?.tagId ?? null;
 };
 
 const handleChange = () => {
@@ -38,7 +39,8 @@ watch(
   () => props.modelValue,
   () => {
     setForm();
-  }
+  },
+  { deep: true }
 );
 </script>
 
@@ -67,6 +69,7 @@ watch(
       <tag-select-search
         :color="validation?.tagId ? 'danger' : ''"
         v-model="form.tagId"
+        v-on:change="handleChange"
         v-on:error="handleErrorTag"
       />
     </base-form>
