@@ -20,6 +20,7 @@ const errorState = reactive({
 
 const setNote = async () => {
   try {
+    filter.isTrash = false;
     filter.order = 'desc';
 
     await getNote();
