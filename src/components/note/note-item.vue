@@ -39,7 +39,7 @@ const props = defineProps({
         <favorite-icon />
       </icon>
       <h2 class="font-bold text-lg text-gray-900 mt-2 mb-1">
-        {{ props.note.title }}
+        {{ props.note.name }}
       </h2>
     </div>
     <div class="text-gray-700 leading-loose">
