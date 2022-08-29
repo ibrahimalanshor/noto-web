@@ -22,4 +22,11 @@ export default {
 
     return res.data;
   },
+  updateFavorite: async function (id, isFavorite) {
+    const res = await http().patch(`${this.baseURL}/${id}/is-favorite`, {
+      isFavorite,
+    });
+
+    return res.data;
+  },
 };

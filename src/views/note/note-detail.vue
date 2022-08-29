@@ -14,6 +14,7 @@ import { NoteDeleteConfirm } from '@/components/note';
 import { Icon } from '@vicons/utils';
 import {
   Star as FavoriteIcon,
+  StarFilled as FavoriteFilledIcon,
   Edit as EditIcon,
   TrashCan as TrashIcon,
   ArrowLeft as BackIcon,
@@ -23,11 +24,15 @@ import { noteHelper } from '@/helpers';
 import { HandledError } from '@/interfaces';
 
 import { useRouter, useRoute } from 'vue-router';
-import { useFindNote } from '@/compose/note';
+import { useToast } from '@/store';
+import { useFindNote, useUpdateNoteFavorite } from '@/compose/note';
 
 const router = useRouter();
 const route = useRoute();
-const { note, loading, findNote } = useFindNote();
+const toast = useToast();
+const { note, loading: loadingFindNote, findNote } = useFindNote();
+const { loading: loadingUpdateNoteFavorite, updateNoteFavorite } =
+  useUpdateNoteFavorite();
 
 const noteDeleteConfirmVisible = ref(false);
 const errorState = reactive({
@@ -55,6 +60,15 @@ const setNote = async () => {
 const handleDelete = () => {
   noteDeleteConfirmVisible.value = true;
 };
+const handleClickFavorite = async () => {
+  try {
+    await updateNoteFavorite(note.value.id, !note.value.isFavorite);
+
+    setNote();
+  } catch (err) {
+    toast.show('Something Error');
+  }
+};
 const handleBack = () => {
   router.push(route.query.back || '/');
 };
@@ -75,9 +89,17 @@ onMounted(() => {
         </button>
       </div>
       <div class="flex space-x-2" v-if="note">
-        <base-button class="flex items-center" color="warning">
+        <base-button
+          class="flex items-center"
+          color="warning"
+          :disabled="loadingUpdateNoteFavorite"
+          :loading="loadingUpdateNoteFavorite"
+          :full-loading="loadingUpdateNoteFavorite"
+          v-on:click="handleClickFavorite"
+        >
           <icon size="16">
-            <favorite-icon />
+            <favorite-filled-icon v-if="note.isFavorite" />
+            <favorite-icon v-else />
           </icon>
         </base-button>
         <router-link
@@ -106,7 +128,7 @@ onMounted(() => {
       </div>
     </div>
     <div class="px-5 py-6">
-      <base-skeleton v-if="loading" />
+      <base-skeleton v-if="loadingFindNote" />
       <template v-else>
         <base-state
           :title="errorState.title"
