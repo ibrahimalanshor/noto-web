@@ -41,4 +41,9 @@ export default {
 
     return res.data;
   },
+  clearTrash: async function () {
+    const res = await http().delete(`${this.baseURL}/is-trash`);
+
+    return res.data;
+  },
 };

@@ -2,6 +2,9 @@
 import { ref, watch } from 'vue';
 import { BaseConfirm } from '@/components/base';
 
+import { useClearTrashNote } from '@/compose/note';
+import { useToast } from '@/store';
+
 const props = defineProps({
   text: {
     type: String,
@@ -12,10 +15,26 @@ const props = defineProps({
     default: false,
   },
 });
-const emit = defineEmits(['update:modelValue', 'close']);
+const emit = defineEmits(['update:modelValue', 'close', 'success']);
+
+const toast = useToast();
+const { loading, clearTrash } = useClearTrashNote();
 
 const visible = ref(props.modelValue);
 
+const handleConfirm = async () => {
+  try {
+    const res = await clearTrash();
+
+    toast.show(res.message, 'success');
+
+    emit('success');
+  } catch (err) {
+    toast.show('Something Error');
+  } finally {
+    emit('update:modelValue', false);
+  }
+};
 const handleClose = () => {
   emit('update:modelValue', false);
   emit('close');
@@ -30,5 +49,12 @@ watch(
 </script>
 
 <template>
-  <base-confirm :text="props.text" v-model="visible" v-on:close="handleClose" />
+  <base-confirm
+    :text="props.text"
+    v-model="visible"
+    :confirm-disabled="loading"
+    :confirm-loading="loading"
+    v-on:confirm="handleConfirm"
+    v-on:close="handleClose"
+  />
 </template>
