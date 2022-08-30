@@ -38,7 +38,7 @@ const setNote = async () => {
 const setNoteDebounce = debounce(setNote);
 
 const handleCreate = () => {
-  router.push({ name: 'NoteCreate', query: { source: route.path } });
+  router.push({ name: 'NoteCreate', query: { source: 'favorite' } });
 };
 const handleSearch = (val) => {
   filter.name = val;
@@ -90,7 +90,7 @@ onMounted(() => {
           v-for="note in note.rows"
           :key="note.id"
           :note="note"
-          :source="route.path"
+          source="favorite"
           v-else
         />
       </template>

@@ -21,7 +21,7 @@ import {
   Undo as RestoreIcon,
 } from '@vicons/carbon';
 
-import { noteHelper } from '@/helpers';
+import { noteHelper, redirectHelper } from '@/helpers';
 import { HandledError } from '@/interfaces';
 
 import { useRouter, useRoute } from 'vue-router';
@@ -59,7 +59,9 @@ const setNote = async () => {
   }
 };
 
-const goBack = () => router.push(route.query.source || '/');
+const goBack = () => {
+  router.push(redirectHelper(route.query.source, { tagId: route.query.tagId }));
+};
 
 const handleClickTrash = () => {
   noteConfirmUpdateTrashVisible.value = true;

@@ -6,6 +6,8 @@ import { ArrowLeft as BackIcon } from '@vicons/carbon';
 import { BaseButton, BaseAlert } from '@/components/base';
 import { NoteForm } from '@/components/note';
 
+import { redirectHelper } from '@/helpers';
+
 import { useRouter, useRoute } from 'vue-router';
 import { useToast } from '@/store';
 import { useCreateNote } from '@/compose/note';
@@ -21,7 +23,8 @@ const alert = reactive({
   text: '',
 });
 
-const goBack = () => router.push(route.query.source || '/');
+const goBack = () =>
+  router.push(redirectHelper(route.query.source, { tagId: route.query.tagId }));
 
 const handleSubmit = async () => {
   alert.visible = false;

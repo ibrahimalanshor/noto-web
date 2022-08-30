@@ -15,6 +15,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { useToast } from '@/store';
 import { useFindNote, useUpdateNote } from '@/compose/note';
 
+import { redirectHelper } from '@/helpers';
 import { HandledError } from '@/interfaces';
 
 const router = useRouter();
@@ -65,11 +66,7 @@ const setNote = async () => {
   }
 };
 const goBack = () =>
-  router.push({
-    name: 'NoteDetail',
-    params: { id: route.params.id },
-    query: route.query,
-  });
+  router.push(redirectHelper(route.query.source, { tagId: route.query.tagId }));
 
 const handleSubmit = async () => {
   alert.visible = false;

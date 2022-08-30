@@ -76,7 +76,7 @@ const setTag = async () => {
 const handleCreateNote = () => {
   router.push({
     name: 'NoteCreate',
-    query: { source: tag.value ? route.path : '/tag' },
+    query: { source: 'tag', tagId: tag.value.id },
   });
 };
 const handleEdit = () => {
@@ -153,7 +153,7 @@ onMounted(() => {
       </div>
     </div>
     <div>
-      <div class="p-5" v-if="loadingFindTag || loadingGetNote">
+      <div class="p-5" v-if="loadingFindTag">
         <base-skeleton />
       </div>
       <template v-else>
@@ -162,16 +162,20 @@ onMounted(() => {
           :text="errorState.text"
           v-if="errorState.visible"
         />
+        <div class="p-5" v-else-if="loadingGetNote">
+          <base-skeleton />
+        </div>
         <base-state
           title="Note empty"
           text="Crate New Empty"
           v-else-if="noteData.count === 0"
-        ></base-state>
+        />
         <note-item
           v-for="note in noteData.rows"
           :key="note.id"
           :note="note"
-          :source="route.path"
+          source="tag"
+          :source-query="{ tagId: tag.id }"
           v-else
         />
       </template>
