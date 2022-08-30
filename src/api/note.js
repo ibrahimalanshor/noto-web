@@ -36,4 +36,9 @@ export default {
 
     return res.data;
   },
+  delete: async function (id) {
+    const res = await http().delete(`${this.baseURL}/${id}`);
+
+    return res.data;
+  },
 };

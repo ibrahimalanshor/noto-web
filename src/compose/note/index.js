@@ -4,3 +4,4 @@ export { default as useFindNote } from './find.js';
 export { default as useUpdateNote } from './update.js';
 export { default as useUpdateNoteFavorite } from './update-favorite.js';
 export { default as useUpdateNoteTrash } from './update-trash.js';
+export { default as useDeleteNote } from './delete.js';
