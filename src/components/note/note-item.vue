@@ -11,7 +11,7 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  backRoute: String,
+  source: String,
 });
 </script>
 
@@ -20,7 +20,7 @@ const props = defineProps({
     :to="{
       name: 'NoteDetail',
       params: { id: props.note.id },
-      query: { back: props.backRoute },
+      query: { source: props.source },
     }"
     class="block border-b p-5 border-gray-200 hover:bg-gray-100 cursor-pointer"
   >

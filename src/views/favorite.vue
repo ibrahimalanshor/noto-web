@@ -6,10 +6,11 @@ import { NoteItem } from '@/components/note';
 import { BaseState, BaseSkeleton } from '@/components/base';
 import { debounce } from '@/utils';
 
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useGetNote } from '@/compose/note';
 
 const router = useRouter();
+const route = useRoute();
 const { note, loading, filter, getNote } = useGetNote();
 
 const errorState = reactive({
@@ -34,7 +35,7 @@ const setNote = async () => {
 const setNoteDebounce = debounce(setNote);
 
 const handleCreate = () => {
-  router.push({ name: 'NoteCreate' });
+  router.push({ name: 'NoteCreate', query: { back: route.fullPath } });
 };
 const handleSearch = (val) => {
   filter.name = val;
@@ -86,6 +87,7 @@ onMounted(() => {
           v-for="note in note.rows"
           :key="note.id"
           :note="note"
+          :source="route.fullPath"
           v-else
         />
       </template>
