@@ -12,6 +12,7 @@ const props = defineProps({
     required: true,
   },
   source: String,
+  sourceQuery: Object,
 });
 </script>
 
@@ -20,7 +21,7 @@ const props = defineProps({
     :to="{
       name: 'NoteDetail',
       params: { id: props.note.id },
-      query: { source: props.source },
+      query: { source: props.source, ...sourceQuery },
     }"
     class="block border-b p-5 border-gray-200 hover:bg-gray-100 cursor-pointer"
   >
