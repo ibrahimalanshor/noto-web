@@ -76,7 +76,7 @@ const setTag = async () => {
 const handleCreateNote = () => {
   router.push({
     name: 'NoteCreate',
-    query: { source: tag.value ? route.path : '/tag' },
+    query: { source: 'tag', tagId: tag.value.id },
   });
 };
 const handleEdit = () => {
