@@ -12,14 +12,22 @@ import { HeaderMenu } from '@/components/layouts/headers';
 import { TagEditModal, TagDeleteConfirm } from '@/components/tag';
 import { NoteItem } from '@/components/note';
 
+import { debounce } from '@/utils';
 import { HandledError } from '@/interfaces';
 
 import { useRouter, useRoute } from 'vue-router';
 import { useFindTag } from '@/compose/tag';
+import { useGetNote } from '@/compose/note';
 
 const router = useRouter();
 const route = useRoute();
-const { tag, loading, findTag } = useFindTag();
+const { tag, loading: loadingFindTag, findTag } = useFindTag();
+const {
+  note: noteData,
+  loading: loadingGetNote,
+  filter: filterGetNote,
+  getNote,
+} = useGetNote();
 
 const tagEditModalVisible = ref(false);
 const tagDeleteConfirmVisible = ref(false);
@@ -29,45 +37,29 @@ const errorState = reactive({
   text: null,
 });
 
-const notes = [
-  {
-    id: 1,
-    tag: {
-      color: 'primary',
-      name: 'Diary',
-    },
-    isFavorite: false,
-    createdAt: null,
-    title: 'Tailwind CSS Badges - Flowbite',
-    content:
-      'The badge component can be used to complement other elements such as buttons or text elements as a label or to show the count of a given data, such as the number of comments for an article or how much time has passed by since a comment has been made.',
-  },
-  {
-    id: 2,
-    tag: null,
-    isFavorite: true,
-    createdAt: new Date(),
-    title: 'Feature preview',
-    content:
-      'Quickly navigate and jump between your organizations or repositories and search recent issues, pull requests, projects and more with the new command palette. You can also execute time saving commands all without lifting your fingers off the keyboard!',
-  },
-  {
-    id: 3,
-    tag: {
-      color: 'danger',
-      name: 'Logs',
-    },
-    isFavorite: false,
-    createdAt: new Date(),
-    title: 'Reactivity for Arrays & Objects in Vue vs. Svelte',
-    content:
-      'Teleport is a new feature introduced in Vue 3. Teleport provides better control to developers on where exactly an element is rendered. Get Teleporting Let us create a new Vue 3 app to start playing around with teleport. We will use Vite, because it is 2021. 1 npm init @vitejs/app Provide a project name (teleport) and select vue as the template.Teleport is a new feature introduced in Vue 3. Teleport provides better control to developers on where exactly an element is rendered. Get Teleporting Let us create a new Vue 3 app to start playing around with teleport. We will use Vite, because it is 2021. 1 npm init @vitejs/app Provide a project name (teleport) and select vue as the template.Teleport is a new feature introduced in Vue 3. Teleport provides better control to developers on where exactly an element is rendered. Get Teleporting Let us create a new Vue 3 app to start playing around with teleport. We will use Vite, because it is 2021. 1 npm init @vitejs/app Provide a project name (teleport) and select vue as the template.Teleport is a new feature introduced in Vue 3. Teleport provides better control to developers on where exactly an element is rendered. Get Teleporting Let us create a new Vue 3 app to start playing around with teleport. We will use Vite, because it is 2021. 1 npm init @vitejs/app Provide a project name (teleport) and select vue as the template.',
-  },
-];
+const setNote = async () => {
+  try {
+    filterGetNote.tagId = tag.value.id;
+    filterGetNote.isTrash = false;
+
+    if (filterGetNote.order === null) {
+      filterGetNote.order = 'desc';
+    }
+
+    await getNote();
+  } catch (err) {
+    errorState.visible = true;
+    errorState.title = 'Something Error';
+    errorState.text = 'Something error when displaying data';
+  }
+};
+
+const setNoteDebounce = debounce(setNote);
 
 const setTag = async () => {
   try {
     await findTag(route.params.id);
+    await setNote();
   } catch (err) {
     if (!(err instanceof HandledError)) {
       errorState.visible = true;
@@ -96,6 +88,18 @@ const handleDelete = () => {
 const handleUpdated = () => {
   setTag();
 };
+const handleSearch = (val) => {
+  filterGetNote.name = val;
+
+  setNoteDebounce();
+};
+const handleFilter = ({ name, sort, order }) => {
+  filterGetNote.name = name;
+  filterGetNote.sort = sort;
+  filterGetNote.order = order;
+
+  setNote();
+};
 
 onMounted(() => {
   setTag();
@@ -108,6 +112,9 @@ onMounted(() => {
       <header-menu
         class="mb-6"
         create-label="New Note"
+        :filter="filterGetNote"
+        v-on:search="handleSearch"
+        v-on:filter="handleFilter"
         v-on:create="handleCreateNote"
       />
       <div class="flex items-center justify-between">
@@ -146,7 +153,7 @@ onMounted(() => {
       </div>
     </div>
     <div>
-      <div class="p-5" v-if="loading">
+      <div class="p-5" v-if="loadingFindTag || loadingGetNote">
         <base-skeleton />
       </div>
       <template v-else>
@@ -155,11 +162,16 @@ onMounted(() => {
           :text="errorState.text"
           v-if="errorState.visible"
         />
+        <base-state
+          title="Note empty"
+          text="Crate New Empty"
+          v-else-if="noteData.count === 0"
+        ></base-state>
         <note-item
-          v-for="note in notes"
+          v-for="note in noteData.rows"
           :key="note.id"
           :note="note"
-          back-route="/tag/1"
+          :source="route.path"
           v-else
         />
       </template>

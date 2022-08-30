@@ -10,6 +10,7 @@ export default () => {
     order: null,
     isTrash: null,
     isFavorite: null,
+    tagId: null,
   });
 
   const getNote = async () => {
