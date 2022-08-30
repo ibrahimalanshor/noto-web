@@ -46,6 +46,9 @@ const handleSearch = (val) => {
 
   setNoteDebounce();
 };
+const handleSuccessDelete = () => {
+  setNote();
+};
 
 onMounted(() => {
   setNote();
@@ -97,6 +100,7 @@ onMounted(() => {
     </div>
     <trash-delete-confirm
       text="Are you sure you want to delete all trash?"
+      v-on:success="handleSuccessDelete"
       v-model="trashDeleteConfirmVisible"
     />
   </layout-app>
