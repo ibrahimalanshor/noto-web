@@ -21,6 +21,10 @@ const props = defineProps({
     type: String,
     default: 'No, cancel',
   },
+  confirmColor: {
+    type: String,
+    default: 'danger',
+  },
   confirmDisabled: {
     type: Boolean,
     default: false,
@@ -92,7 +96,7 @@ watch(
             <div class="space-x-2">
               <slot name="confirm">
                 <base-button
-                  color="danger"
+                  :color="props.confirmColor"
                   :label="props.confirmText"
                   v-on:click="handleConfirm"
                   :disabled="props.confirmDisabled"
