@@ -60,7 +60,7 @@ const handleResetFilter = () => {
 };
 
 watch(
-  props.filter,
+  () => props.filter,
   () => {
     filter.name = props.filter?.name;
     filter.sort = props.filter?.sort;
