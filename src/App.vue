@@ -1,5 +1,6 @@
 <script setup>
 import { BaseToast } from '@/components/base';
+import { TheProgress } from '@/components/layouts';
 
 import { useToast } from '@/store';
 
@@ -8,6 +9,7 @@ const toast = useToast();
 
 <template>
   <div>
+    <the-progress />
     <base-toast
       :text="toast.message"
       :type="toast.type"
