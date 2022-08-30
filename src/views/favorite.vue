@@ -87,7 +87,7 @@ onMounted(() => {
           v-for="note in note.rows"
           :key="note.id"
           :note="note"
-          :back-route="route.fullPath"
+          :source="route.fullPath"
           v-else
         />
       </template>
