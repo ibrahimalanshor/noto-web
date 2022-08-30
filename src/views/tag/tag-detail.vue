@@ -84,7 +84,7 @@ const setTag = async () => {
 const handleCreateNote = () => {
   router.push({
     name: 'NoteCreate',
-    query: { back: tag.value ? route.fullPath : '/tag' },
+    query: { source: tag.value ? route.path : '/tag' },
   });
 };
 const handleEdit = () => {

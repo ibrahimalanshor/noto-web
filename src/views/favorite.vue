@@ -35,7 +35,7 @@ const setNote = async () => {
 const setNoteDebounce = debounce(setNote);
 
 const handleCreate = () => {
-  router.push({ name: 'NoteCreate', query: { back: route.fullPath } });
+  router.push({ name: 'NoteCreate', query: { source: route.path } });
 };
 const handleSearch = (val) => {
   filter.name = val;
@@ -87,7 +87,7 @@ onMounted(() => {
           v-for="note in note.rows"
           :key="note.id"
           :note="note"
-          :source="route.fullPath"
+          :source="route.path"
           v-else
         />
       </template>

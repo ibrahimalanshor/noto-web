@@ -21,7 +21,7 @@ const alert = reactive({
   text: '',
 });
 
-const goBack = () => router.push(route.query.back || '/');
+const goBack = () => router.push(route.query.source || '/');
 
 const handleSubmit = async () => {
   alert.visible = false;
