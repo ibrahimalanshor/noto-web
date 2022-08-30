@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue';
+import { reactive, onMounted } from 'vue';
 import { LayoutApp } from '@/layouts';
 import { Icon } from '@vicons/utils';
 import { ArrowLeft as BackIcon } from '@vicons/carbon';
@@ -11,18 +11,27 @@ import { redirectHelper } from '@/helpers';
 import { useRouter, useRoute } from 'vue-router';
 import { useToast } from '@/store';
 import { useCreateNote } from '@/compose/note';
+import { useFindTag } from '@/compose/tag';
 import { HandledError } from '@/interfaces';
 
 const router = useRouter();
 const route = useRoute();
 const toast = useToast();
 const { body, validation, loading, createNote } = useCreateNote();
+const { tag, findTag } = useFindTag();
 
 const alert = reactive({
   visible: false,
   text: '',
 });
 
+const setFormTag = async () => {
+  try {
+    await findTag(route.query.tagId);
+
+    body.value.tagId = tag.value;
+  } catch (err) {}
+};
 const goBack = () =>
   router.push(redirectHelper(route.query.source, { tagId: route.query.tagId }));
 
@@ -44,6 +53,12 @@ const handleSubmit = async () => {
 const handleClickBack = () => {
   goBack();
 };
+
+onMounted(() => {
+  if (route.query.tagId) {
+    setFormTag();
+  }
+});
 </script>
 
 <template>
