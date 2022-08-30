@@ -79,6 +79,9 @@ const handleClickFavorite = async () => {
 const handleSuccessUpdateTrash = () => {
   goBack();
 };
+const handleSuccessDelete = () => {
+  goBack();
+};
 const handleBack = () => {
   goBack();
 };
@@ -105,9 +108,10 @@ onMounted(() => {
           v-on:success="handleSuccessUpdateTrash"
         />
         <note-delete-confirm
-          :note="note"
+          :note="note.id"
           v-model="noteDeleteConfirmVisible"
           v-if="note.isTrash"
+          v-on:success="handleSuccessDelete"
         />
 
         <base-button
