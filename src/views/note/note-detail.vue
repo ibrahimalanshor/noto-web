@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, computed, onMounted } from 'vue';
 import dayjs from 'dayjs';
 import { LayoutApp } from '@/layouts';
 import {
@@ -18,6 +18,7 @@ import {
   Edit as EditIcon,
   TrashCan as TrashIcon,
   ArrowLeft as BackIcon,
+  Undo as RestoreIcon,
 } from '@vicons/carbon';
 
 import { noteHelper } from '@/helpers';
@@ -57,14 +58,14 @@ const setNote = async () => {
     }
   }
 };
-const goBack = () => router.push(route.query.back || '/');
 
+const goBack = () => router.push(route.query.source || '/');
+
+const handleClickTrash = () => {
+  noteConfirmUpdateTrashVisible.value = true;
+};
 const handleClickDelete = () => {
-  if (note.value.isTrash) {
-    noteDeleteConfirmVisible.value = true;
-  } else {
-    noteConfirmUpdateTrashVisible.value = true;
-  }
+  noteDeleteConfirmVisible.value = true;
 };
 const handleClickFavorite = async () => {
   try {
@@ -103,7 +104,12 @@ onMounted(() => {
           v-model="noteConfirmUpdateTrashVisible"
           v-on:success="handleSuccessUpdateTrash"
         />
-        <note-delete-confirm :note="note" v-model="noteDeleteConfirmVisible" />
+        <note-delete-confirm
+          :note="note"
+          v-model="noteDeleteConfirmVisible"
+          v-if="note.isTrash"
+        />
+
         <base-button
           class="flex items-center"
           color="warning"
@@ -111,6 +117,7 @@ onMounted(() => {
           :loading="loadingUpdateNoteFavorite"
           :full-loading="loadingUpdateNoteFavorite"
           v-on:click="handleClickFavorite"
+          v-if="!note.isTrash"
         >
           <icon size="16">
             <favorite-filled-icon v-if="note.isFavorite" />
@@ -121,9 +128,10 @@ onMounted(() => {
           :to="{
             name: 'NoteEdit',
             params: { id: route.params.id },
-            query: { back: route.fullPath },
+            query: route.query,
           }"
           v-slot="{ navigate }"
+          v-if="!note.isTrash"
         >
           <base-button
             class="flex items-center h-full"
@@ -137,8 +145,19 @@ onMounted(() => {
         </router-link>
         <base-button
           class="flex items-center"
+          :color="note.isTrash ? 'success' : 'danger'"
+          v-on:click="handleClickTrash"
+        >
+          <icon size="16">
+            <restore-icon v-if="note.isTrash" />
+            <trash-icon v-else />
+          </icon>
+        </base-button>
+        <base-button
+          class="flex items-center"
           color="danger"
           v-on:click="handleClickDelete"
+          v-if="note.isTrash"
         >
           <icon size="16">
             <trash-icon />
