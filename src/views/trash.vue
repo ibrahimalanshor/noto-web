@@ -71,6 +71,7 @@ onMounted(() => {
           color="danger"
           label="Delete All"
           v-on:click="handleDeleteAll"
+          v-if="note.count !== 0"
         />
       </div>
     </div>
