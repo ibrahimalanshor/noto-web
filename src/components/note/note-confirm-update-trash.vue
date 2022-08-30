@@ -3,11 +3,7 @@ import { ref, watch } from 'vue';
 import { BaseConfirm } from '@/components/base';
 
 import { useToast } from '@/store';
-import {
-  useFindNote,
-  useUpdateNoteFavorite,
-  useUpdateNoteTrash,
-} from '@/compose/note';
+import { useUpdateNoteTrash } from '@/compose/note';
 
 const props = defineProps({
   modelValue: {
