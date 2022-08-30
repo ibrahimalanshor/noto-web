@@ -43,6 +43,10 @@ const setNote = async () => {
   try {
     await findNote(route.params.id);
 
+    if (note.value.isTrash) {
+      throw new Error();
+    }
+
     setBody({
       name: note.value.name,
       content: note.value.content,
