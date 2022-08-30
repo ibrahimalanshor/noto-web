@@ -56,8 +56,11 @@ watch(
 
 <template>
   <base-confirm
-    text="Move this note to trash?"
+    :text="
+      props.note.isTrash ? 'Restore this note?' : 'Move this note to trash?'
+    "
     v-model="visible"
+    :confirm-color="props.note.isTrash ? 'success' : 'danger'"
     :confirm-disabled="loading"
     :confirm-loading="loading"
     v-on:confirm="handleConfirm"
