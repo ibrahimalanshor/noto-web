@@ -25,6 +25,10 @@ const errorState = reactive({
 
 const setTag = async () => {
   try {
+    if (filter.order === null) {
+      filter.order = 'desc';
+    }
+
     await getTag();
   } catch (err) {
     errorState.visible = true;
