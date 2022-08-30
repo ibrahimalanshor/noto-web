@@ -21,7 +21,10 @@ const errorState = reactive({
 const setNote = async () => {
   try {
     filter.isTrash = false;
-    filter.order = 'desc';
+
+    if (filter.order === null) {
+      filter.order = 'desc';
+    }
 
     await getNote();
   } catch (err) {

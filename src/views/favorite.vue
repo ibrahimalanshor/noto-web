@@ -23,7 +23,10 @@ const setNote = async () => {
   try {
     filter.isTrash = false;
     filter.isFavorite = true;
-    filter.order = 'desc';
+
+    if (filter.order === null) {
+      filter.order = 'desc';
+    }
 
     await getNote();
   } catch (err) {
