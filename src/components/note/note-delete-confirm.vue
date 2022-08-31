@@ -29,7 +29,9 @@ const close = () => {
 
 const handleConfirm = async () => {
   try {
-    await deleteNote(props.note);
+    const res = await deleteNote(props.note);
+
+    toast.show(res.message, 'success');
 
     emit('success');
   } catch (err) {
