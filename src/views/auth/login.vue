@@ -27,7 +27,7 @@ const handleSubmit = async () => {
   } catch (err) {
     if (!(err instanceof HandledError)) {
       toast.show('Something Error');
-    } else if ([401, 404].includes(err.errors.status)) {
+    } else if ([401].includes(err.errors.status)) {
       alert.visible = true;
       alert.text = err.errors.message;
     }
