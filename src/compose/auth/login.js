@@ -29,7 +29,7 @@ export default () => {
           validation.value = errors;
         }
 
-        if ([422, 404, 401].includes(status)) {
+        if ([422, 401].includes(status)) {
           throw new HandledError(err.response.data);
         }
       }
