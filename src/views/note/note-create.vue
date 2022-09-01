@@ -6,7 +6,7 @@ import { ArrowLeft as BackIcon } from '@vicons/carbon';
 import { BaseButton, BaseAlert } from '@/components/base';
 import { NoteForm } from '@/components/note';
 
-import { redirectHelper } from '@/helpers';
+import { redirectHelper, setupTitle } from '@/helpers';
 
 import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
@@ -61,6 +61,8 @@ onMounted(() => {
     setFormTag();
   }
 });
+
+setupTitle(t('note.create.title'));
 </script>
 
 <template>

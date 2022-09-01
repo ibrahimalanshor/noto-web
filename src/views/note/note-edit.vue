@@ -16,7 +16,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { useToast } from '@/store';
 import { useFindNote, useUpdateNote } from '@/compose/note';
 
-import { redirectHelper } from '@/helpers';
+import { redirectHelper, setupTitle } from '@/helpers';
 import { HandledError } from '@/interfaces';
 
 const { t } = useI18n();
@@ -50,6 +50,7 @@ const setNote = async () => {
       throw new Error();
     }
 
+    setupTitle(t(`page.note.edit`, { name: note.value.name }));
     setBody({
       name: note.value.name,
       content: note.value.content,
@@ -68,7 +69,11 @@ const setNote = async () => {
   }
 };
 const goBack = () =>
-  router.push(redirectHelper(route.query.source, { tagId: route.query.tagId }));
+  router.push({
+    name: 'NoteDetail',
+    params: { id: note.value.id },
+    query: route.query,
+  });
 
 const handleSubmit = async () => {
   alert.visible = false;

@@ -6,6 +6,7 @@ import { NoteItem } from '@/components/note';
 import { BaseButton, BaseState, BaseSkeleton } from '@/components/base';
 import { TrashDeleteConfirm } from '@/components/trash';
 import { debounce } from '@/utils';
+import { setupTitle } from '@/helpers';
 
 import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
@@ -55,6 +56,8 @@ const handleSuccessDelete = () => {
 onMounted(() => {
   setNote();
 });
+
+setupTitle(t('page.trash'));
 </script>
 
 <template>

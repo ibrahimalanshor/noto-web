@@ -13,11 +13,14 @@
     "empty": "{name} Empty"
   },
   "page": {
-    "home": "Home",
+    "home": "All Note",
     "favorite": "Favorite",
-    "tag": "Tags",
+    "tags": "Tags",
     "trash": "Trash",
-    "profile": "Profile"
+    "profile": "Profile",
+    "note": {
+      "edit": "Edit {name}"
+    }
   },
   "form": {
     "label": {
@@ -135,5 +138,10 @@
         "text": "Logout From Your Account?"
       }
     }
+  },
+  "not-found": {
+    "title": "404 Not Found",
+    "message": "Your Requested Page is Not Found",
+    "redirect-home": "Go Home"
   }
 }

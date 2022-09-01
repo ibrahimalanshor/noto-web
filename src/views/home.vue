@@ -5,6 +5,7 @@ import { HeaderMenu } from '@/components/layouts/headers';
 import { NoteItem } from '@/components/note';
 import { BaseState, BaseSkeleton } from '@/components/base';
 import { debounce } from '@/utils';
+import { setupTitle } from '@/helpers';
 
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
@@ -56,6 +57,8 @@ const handleFilter = ({ name, sort, order }) => {
 onMounted(() => {
   setNote();
 });
+
+setupTitle(t('page.home'));
 </script>
 
 <template>

@@ -21,7 +21,7 @@ import {
   Undo as RestoreIcon,
 } from '@vicons/carbon';
 
-import { noteHelper, redirectHelper } from '@/helpers';
+import { noteHelper, redirectHelper, setupTitle } from '@/helpers';
 import { HandledError } from '@/interfaces';
 
 import { useI18n } from 'vue-i18n';
@@ -48,6 +48,8 @@ const errorState = reactive({
 const setNote = async () => {
   try {
     await findNote(route.params.id);
+
+    setupTitle(note.value.name);
   } catch (err) {
     if (!(err instanceof HandledError)) {
       errorState.visible = true;

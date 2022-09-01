@@ -5,6 +5,7 @@ import { HeaderMenu } from '@/components/layouts/headers';
 import { BaseButton, BaseState, BaseSkeleton } from '@/components/base';
 import { TagCreateModal } from '@/components/tag';
 import { debounce } from '@/utils';
+import { setupTitle } from '@/helpers';
 
 import { useI18n } from 'vue-i18n';
 import { useGetTag } from '@/compose/tag';
@@ -64,6 +65,8 @@ const handleFilter = ({ name, sort, order }) => {
 onMounted(() => {
   setTag();
 });
+
+setupTitle(t('page.tags'));
 </script>
 
 <template>

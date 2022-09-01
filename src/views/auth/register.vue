@@ -10,6 +10,8 @@ import { useRouter } from 'vue-router';
 import { useToast } from '@/store';
 import { useRegister } from '@/compose/auth';
 
+import { setupTitle } from '@/helpers';
+
 const { t } = useI18n();
 const router = useRouter();
 const toast = useToast();
@@ -36,6 +38,8 @@ const handleSubmit = async () => {
     }
   }
 };
+
+setupTitle(t('auth.register.title'));
 </script>
 
 <template>

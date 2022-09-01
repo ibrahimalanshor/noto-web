@@ -12,6 +12,7 @@ import { HeaderMenu } from '@/components/layouts/headers';
 import { TagEditModal, TagDeleteConfirm } from '@/components/tag';
 import { NoteItem } from '@/components/note';
 
+import { setupTitle } from '@/helpers';
 import { debounce } from '@/utils';
 import { HandledError } from '@/interfaces';
 
@@ -61,6 +62,9 @@ const setNoteDebounce = debounce(setNote);
 const setTag = async () => {
   try {
     await findTag(route.params.id);
+
+    setupTitle(tag.value.name);
+
     await setNote();
   } catch (err) {
     if (!(err instanceof HandledError)) {

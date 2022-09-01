@@ -11,6 +11,7 @@ import {
 } from '@/components/base';
 import { ProfileLogoutConfirm } from '@/components/profile';
 import { HandledError } from '@/interfaces';
+import { setupTitle } from '@/helpers';
 
 import { useI18n } from 'vue-i18n';
 import { useToast } from '@/store';
@@ -64,6 +65,8 @@ const handleClickLogout = () => {
 onMounted(() => {
   setProfile();
 });
+
+setupTitle(t('page.profile'));
 </script>
 
 <template>
