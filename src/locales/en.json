@@ -1,5 +1,139 @@
 {
-  "message": {
-    "hello": "halo {name}"
+  "action": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "new": "New",
+    "confirm": "Confirm",
+    "ask-confirm": "Are you sure want to delete this {name}?"
+  },
+  "error": {
+    "client": "Something Error",
+    "server": "Server Error",
+    "fetch-data": "Something Error when displaying data",
+    "empty": "{name} Empty"
+  },
+  "page": {
+    "home": "Home",
+    "favorite": "Favorite",
+    "tag": "Tags",
+    "trash": "Trash",
+    "profile": "Profile"
+  },
+  "form": {
+    "label": {
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "password-confirmation": "Password Confirmation"
+    },
+    "placeholder": {
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "password-confirmation": "Password Confirmation"
+    }
+  },
+  "filter": {
+    "reset": "Reset",
+    "search": "Search",
+    "sort": {
+      "all": "All",
+      "created": "Created",
+      "name": "Name"
+    },
+    "order": {
+      "all": "All",
+      "asc": "ASC",
+      "desc": "DESC"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in to your account",
+      "action": {
+        "submit": "Sign In"
+      },
+      "text": {
+        "does-not-have-account": "Does not have account?",
+        "redirect-register": "Register Here"
+      }
+    },
+    "register": {
+      "title": "Create your account",
+      "action": {
+        "submit": "Sign Up"
+      },
+      "text": {
+        "already-have-account": "Already have account?",
+        "redirect-login": "Login Here"
+      }
+    }
+  },
+  "note": {
+    "confirm": {
+      "restore": "Restore this note?",
+      "move-to-trash": "Move this note to trash?"
+    },
+    "form": {
+      "label": {
+        "content": "Content",
+        "tag": "Tag"
+      },
+      "placeholder": {
+        "content": "Content",
+        "tag": "Tag"
+      }
+    },
+    "list": {
+      "title": "All Note",
+      "text": {
+        "empty": "Create new note"
+      }
+    },
+    "create": {
+      "title": "New Note"
+    },
+    "edit": {
+      "title": "Edit Note"
+    },
+    "favorite": {
+      "title": "Favorite Note"
+    },
+    "trash": {
+      "title": "Trash Note",
+      "action": {
+        "delete": "Delete All",
+        "ask-delete": "Are you sure want to delete all trash note?"
+      }
+    }
+  },
+  "tag": {
+    "form": {
+      "label": {
+        "color": "Color"
+      }
+    },
+    "list": {
+      "title": "All Tags",
+      "search": "Search Tag",
+      "text": {
+        "empty": "Create new tag"
+      }
+    },
+    "create": {
+      "title": "New Tag"
+    },
+    "edit": {
+      "title": "Edit Tag"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "action": {
+      "logout": {
+        "title": "Logout",
+        "text": "Logout From Your Account?"
+      }
+    }
   }
 }

@@ -2,10 +2,12 @@
 import { ref, watch } from 'vue';
 import { BaseConfirm } from '@/components/base';
 
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useToast } from '@/store';
 import { useLogout } from '@/compose/auth';
 
+const { t } = useI18n();
 const router = useRouter();
 const toast = useToast();
 const { loading, logout } = useLogout();
@@ -26,7 +28,7 @@ const handleConfirm = async () => {
 
     router.push({ name: 'Login' });
   } catch (err) {
-    toast.show('Something Error');
+    toast.show(t('error.client'));
   }
 };
 const handleClose = () => {
@@ -44,7 +46,7 @@ watch(
 
 <template>
   <base-confirm
-    text="Logout from your account?"
+    :text="t('profile.action.logout.text')"
     :confirm-disabled="loading"
     :confirm-loading="loading"
     v-model="visible"

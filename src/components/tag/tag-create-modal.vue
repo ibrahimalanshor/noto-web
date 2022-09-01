@@ -5,6 +5,7 @@ import TagForm from './tag-form.vue';
 
 import { HandledError } from '@/interfaces';
 
+import { useI18n } from 'vue-i18n';
 import { useToast } from '@/store';
 import { useCreateTag } from '@/compose/tag';
 
@@ -16,6 +17,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:modelValue', 'close', 'created']);
 
+const { t } = useI18n();
 const toast = useToast();
 const { body, validation, loading, resetBody, resetValidation, createTag } =
   useCreateTag();
@@ -43,7 +45,7 @@ const handleSave = async () => {
   } catch (err) {
     if (!(err instanceof HandledError)) {
       alert.visible = true;
-      alert.text = 'Something Error';
+      alert.text = t('error.client');
     }
   }
 };
@@ -65,7 +67,7 @@ watch(visible, () => {
 
 <template>
   <base-modal
-    title="New Tag"
+    :title="t('tag.create.title')"
     :show-footer="true"
     v-model="visible"
     v-on:close="handleClose"
@@ -74,12 +76,14 @@ watch(visible, () => {
     <tag-form :validation="validation" v-model="body" />
 
     <template #footer="{ close }">
-      <base-button color="light" v-on:click="close">Cancel</base-button>
+      <base-button color="light" v-on:click="close">{{
+        t('action.cancel')
+      }}</base-button>
       <base-button
         v-on:click="handleSave"
         :disabled="loading"
         :loading="loading"
-        >Save</base-button
+        >{{ t('action.save') }}</base-button
       >
     </template>
   </base-modal>

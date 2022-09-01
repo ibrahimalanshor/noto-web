@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue';
 import { BaseConfirm } from '@/components/base';
 
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useToast } from '@/store';
 import { useDeleteTag } from '@/compose/tag';
@@ -18,6 +19,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:modelValue', 'close']);
 
+const { t } = useI18n();
 const router = useRouter();
 const toast = useToast();
 const { loading, deleteTag } = useDeleteTag();
@@ -37,7 +39,7 @@ const handleConfirm = async () => {
   } catch (err) {
     emit('update:modelValue', false);
 
-    toast.show('Something Error');
+    toast.show(t('error.client'));
   }
 };
 
@@ -51,7 +53,7 @@ watch(
 
 <template>
   <base-confirm
-    text="Are you sure you want to delete this tag?"
+    :text="t('action.ask-confirm', { name: 'tag' })"
     :confirm-loading="loading"
     :confirm-disabled="loading"
     v-model="visible"

@@ -11,6 +11,7 @@ import {
 } from '@/components/base';
 import { NoteForm } from '@/components/note';
 
+import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
 import { useToast } from '@/store';
 import { useFindNote, useUpdateNote } from '@/compose/note';
@@ -18,6 +19,7 @@ import { useFindNote, useUpdateNote } from '@/compose/note';
 import { redirectHelper } from '@/helpers';
 import { HandledError } from '@/interfaces';
 
+const { t } = useI18n();
 const router = useRouter();
 const route = useRoute();
 const toast = useToast();
@@ -56,8 +58,8 @@ const setNote = async () => {
   } catch (err) {
     if (!(err instanceof HandledError)) {
       errorState.visible = true;
-      errorState.title = 'Something Error';
-      errorState.text = 'Something error when displaying data';
+      errorState.title = t('error.client');
+      errorState.text = t('error.fetch-data');
     } else {
       errorState.visible = true;
       errorState.title = err.errors.name;
@@ -79,7 +81,7 @@ const handleSubmit = async () => {
   } catch (err) {
     if (!(err instanceof HandledError)) {
       alert.visible = true;
-      alert.text = 'Something Error';
+      alert.text = t('error.client');
     }
   }
 };
@@ -100,7 +102,7 @@ onMounted(() => {
           <back-icon />
         </icon>
       </button>
-      <h1 class="font-bold text-2xl">Edit Note</h1>
+      <h1 class="font-bold text-2xl">{{ t('note.edit.title') }}</h1>
     </div>
     <div class="p-5">
       <base-skeleton v-if="loadingFindNote" />
@@ -120,14 +122,14 @@ onMounted(() => {
           <form v-on:submit.prevent="handleSubmit">
             <note-form v-model="body" :validation="validation" />
             <div class="space-x-2">
-              <base-button color="light" v-on:click="handleClickBack"
-                >Cancel</base-button
-              >
+              <base-button color="light" v-on:click="handleClickBack">{{
+                t('action.cancel')
+              }}</base-button>
               <base-button
                 type="submit"
                 :loading="loadingUpdateNote"
                 :disabled="loadingUpdateNote"
-                >Save</base-button
+                >{{ t('action.save') }}</base-button
               >
             </div>
           </form>

@@ -6,8 +6,10 @@ import { BaseButton, BaseState, BaseSkeleton } from '@/components/base';
 import { TagCreateModal } from '@/components/tag';
 import { debounce } from '@/utils';
 
+import { useI18n } from 'vue-i18n';
 import { useGetTag } from '@/compose/tag';
 
+const { t } = useI18n();
 const {
   loading: tagGetLoading,
   tag: tagData,
@@ -32,8 +34,8 @@ const setTag = async () => {
     await getTag();
   } catch (err) {
     errorState.visible = true;
-    errorState.title = 'Something Error';
-    errorState.text = 'Something error when displaying data';
+    errorState.title = t('error.client');
+    errorState.text = t('error.fetch-data');
   }
 };
 
@@ -69,14 +71,16 @@ onMounted(() => {
     <div class="p-5 border-b">
       <header-menu
         class="mb-6"
-        search-placeholder="Search Tags"
-        create-label="New Tag"
+        :search-placeholder="t('tag.list.search')"
+        :create-label="t('tag.create.title')"
         :filter="filter"
         v-on:search="handleSearch"
         v-on:filter="handleFilter"
         v-on:create="handleCreate"
       />
-      <h1 class="font-bold text-3xl text-gray-900">Tags</h1>
+      <h1 class="font-bold text-3xl text-gray-900">
+        {{ t('tag.list.title') }}
+      </h1>
     </div>
     <div class="p-5">
       <base-skeleton v-if="tagGetLoading" />
@@ -88,8 +92,8 @@ onMounted(() => {
         />
         <template v-else>
           <base-state
-            title="Tags Empty"
-            text="Create a new tag"
+            :title="t('error.empty', { name: 'Tag' })"
+            :text="t('tag.list.text.empty')"
             v-if="tagData.count === 0"
           />
           <div class="flex flex-wrap gap-2" v-else>

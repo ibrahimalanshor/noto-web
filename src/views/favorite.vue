@@ -6,9 +6,11 @@ import { NoteItem } from '@/components/note';
 import { BaseState, BaseSkeleton } from '@/components/base';
 import { debounce } from '@/utils';
 
+import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
 import { useGetNote } from '@/compose/note';
 
+const { t } = useI18n();
 const router = useRouter();
 const route = useRoute();
 const { note, loading, filter, getNote } = useGetNote();
@@ -31,8 +33,8 @@ const setNote = async () => {
     await getNote();
   } catch (err) {
     errorState.visible = true;
-    errorState.title = 'Something Error';
-    errorState.text = 'Something error when displaying data';
+    errorState.title = t('error.client');
+    errorState.text = t('error.fetch-data');
   }
 };
 const setNoteDebounce = debounce(setNote);
@@ -63,13 +65,15 @@ onMounted(() => {
     <div class="p-5 border-b">
       <header-menu
         class="mb-6"
-        create-label="New Note"
+        :create-label="t('note.create.title')"
         :filter="filter"
         v-on:search="handleSearch"
         v-on:filter="handleFilter"
         v-on:create="handleCreate"
       />
-      <h1 class="font-bold text-3xl text-gray-900">Favorite</h1>
+      <h1 class="font-bold text-3xl text-gray-900">
+        {{ t('note.favorite.title') }}
+      </h1>
     </div>
     <div>
       <div class="p-5" v-if="loading">
@@ -82,8 +86,8 @@ onMounted(() => {
           v-if="errorState.visible"
         />
         <base-state
-          title="Favorite Note empty"
-          text="Crate New Empty"
+          :title="t('error.empty', { name: 'Favorite Note' })"
+          :text="t('note.list.text.empty')"
           v-else-if="note.count === 0"
         ></base-state>
         <note-item

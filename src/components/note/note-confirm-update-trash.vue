@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue';
 import { BaseConfirm } from '@/components/base';
 
+import { useI18n } from 'vue-i18n';
 import { useToast } from '@/store';
 import { useUpdateNoteTrash } from '@/compose/note';
 
@@ -17,6 +18,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:modelValue', 'success', 'close']);
 
+const { t } = useI18n();
 const toast = useToast();
 const { loading, updateNoteTrash } = useUpdateNoteTrash();
 
@@ -33,7 +35,7 @@ const handleConfirm = async () => {
 
     emit('success');
   } catch (err) {
-    toast.show('Something Error');
+    toast.show(t('error.client'));
   } finally {
     close();
   }
@@ -53,7 +55,9 @@ watch(
 <template>
   <base-confirm
     :text="
-      props.note.isTrash ? 'Restore this note?' : 'Move this note to trash?'
+      props.note.isTrash
+        ? t('note.confirm.restore')
+        : t('note.confirm.move-to-trash')
     "
     v-model="visible"
     :confirm-color="props.note.isTrash ? 'success' : 'danger'"

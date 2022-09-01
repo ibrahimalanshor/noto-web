@@ -28,7 +28,7 @@ const handleSubmit = async () => {
     router.push({ name: 'Home' });
   } catch (err) {
     if (!(err instanceof HandledError)) {
-      toast.show('Something Error');
+      toast.show(t('error.client'));
     } else if ([401].includes(err.errors.status)) {
       alert.visible = true;
       alert.text = err.errors.message;
@@ -38,28 +38,28 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <layout-auth :title="t('message.hello', { name: 'sukri' })">
+  <layout-auth :title="t('auth.login.title')">
     <base-alert color="danger" :text="alert.text" v-model="alert.visible" />
     <form v-on:submit.prevent="handleSubmit">
       <base-form
-        label="Email"
+        :label="t('form.label.email')"
         type="email"
-        placeholder="Email"
+        :placeholder="t('form.placeholder.email')"
         :color="validation?.email ? 'danger' : ''"
         :helper="validation?.email?.msg"
         v-model="credential.email"
       />
       <base-form
-        label="Password"
+        :label="t('form.label.password')"
         type="password"
-        placeholder="Password"
+        :placeholder="t('form.placeholder.password')"
         :color="validation?.password ? 'danger' : ''"
         :helper="validation?.password?.msg"
         v-model="credential.password"
       />
       <base-button
         type="submit"
-        label="Sign In"
+        :label="t('auth.login.action.submit')"
         class="mb-4"
         block
         :disabled="loading"
@@ -68,11 +68,11 @@ const handleSubmit = async () => {
       <p
         class="text-center text-sm font-light text-gray-500 dark:text-gray-400"
       >
-        Don’t have an account yet?
+        {{ t('auth.login.text.does-not-have-account') }}
         <router-link
           :to="{ name: 'Register' }"
           class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-          >Sign up here</router-link
+          >{{ t('auth.login.text.redirect-register') }}</router-link
         >
       </p>
     </form>

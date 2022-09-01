@@ -5,6 +5,7 @@ import TagForm from './tag-form.vue';
 
 import { HandledError } from '@/interfaces';
 
+import { useI18n } from 'vue-i18n';
 import { useToast } from '@/store';
 import { useUpdateTag } from '@/compose/tag';
 
@@ -20,6 +21,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:modelValue', 'close', 'updated']);
 
+const { t } = useI18n();
 const toast = useToast();
 const { body, validation, loading, setBody, resetValidation, updateTag } =
   useUpdateTag();
@@ -47,7 +49,7 @@ const handleSave = async () => {
   } catch (err) {
     if (!(err instanceof HandledError)) {
       alert.visible = true;
-      alert.text = 'Something Error';
+      alert.text = t('error.client');
     }
   }
 };
@@ -73,7 +75,7 @@ watch(visible, () => {
 
 <template>
   <base-modal
-    title="Edit Tag"
+    :title="t('tag.edit.title')"
     :show-footer="true"
     v-model="visible"
     v-on:close="handleClose"
@@ -87,7 +89,7 @@ watch(visible, () => {
         v-on:click="handleSave"
         :disabled="loading"
         :loading="loading"
-        >Save</base-button
+        >{{ t('action.save') }}</base-button
       >
     </template>
   </base-modal>

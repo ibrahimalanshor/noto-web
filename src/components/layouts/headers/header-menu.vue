@@ -5,18 +5,13 @@ import { BaseInput, BaseButton, BaseDropdown } from '@/components/base';
 import HeaderFilter from './header-filter.vue';
 import { Icon } from '@vicons/utils';
 import { Menu as MenuIcon, Add as NewIcon } from '@vicons/carbon';
+import { useI18n } from 'vue-i18n';
 import { useSidebar } from '@/store';
 
 const props = defineProps({
   filter: Object,
-  searchPlaceholder: {
-    type: String,
-    default: 'Search Something',
-  },
-  createLabel: {
-    type: String,
-    default: 'New',
-  },
+  searchPlaceholder: String,
+  createLabel: String,
   creatable: {
     type: Boolean,
     default: true,
@@ -28,6 +23,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['create', 'search', 'filter']);
 
+const { t } = useI18n();
 const sidebar = useSidebar();
 
 const filter = reactive({
@@ -80,7 +76,7 @@ watch(
     <div class="flex flex-grow space-x-4">
       <div class="flex-grow">
         <base-input
-          :placeholder="props.searchPlaceholder"
+          :placeholder="props.searchPlaceholder || t('filter.search')"
           v-model="filter.name"
           v-on:input="handleInputSearch"
         />
@@ -94,7 +90,7 @@ watch(
       <div v-if="props.creatable">
         <base-button
           class="hidden md:block"
-          :label="props.createLabel"
+          :label="props.createLabel || t('action.new')"
           v-on:click="handleCreate"
           block
         />

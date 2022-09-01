@@ -3,11 +3,15 @@ import { reactive, watch, onMounted } from 'vue';
 import { BaseForm, BaseTextarea, BaseAlert } from '@/components/base';
 import { TagSelectSearch } from '@/components/tag';
 
+import { useI18n } from 'vue-i18n';
+
 const props = defineProps({
   modelValue: Object,
   validation: Object,
 });
 const emit = defineEmits(['update:modelValue', 'submit']);
+
+const { t } = useI18n();
 
 const form = reactive({
   name: null,
@@ -54,19 +58,20 @@ watch(
     />
     <base-form
       type="text"
-      placeholder="Name"
-      label="Name"
+      :placeholder="t('form.placeholder.name')"
+      :label="t('form.label.name')"
       :color="validation?.name ? 'danger' : ''"
       :helper="validation?.name?.msg"
       v-model="form.name"
       v-on:change="handleChange"
     />
     <base-form
-      label="Tags"
+      :label="t('note.form.label.tag')"
       :color="validation?.tagId ? 'danger' : ''"
       :helper="validation?.tagId?.msg"
     >
       <tag-select-search
+        :placeholder="t('note.form.placeholder.tag')"
         :color="validation?.tagId ? 'danger' : ''"
         v-model="form.tagId"
         v-on:change="handleChange"
@@ -74,12 +79,12 @@ watch(
       />
     </base-form>
     <base-form
-      label="Content"
+      :label="t('note.form.label.content')"
       :color="validation?.content ? 'danger' : ''"
       :helper="validation?.content?.msg"
     >
       <base-textarea
-        placeholder="Content"
+        :label="t('note.form.placeholder.content')"
         :color="validation?.content ? 'danger' : ''"
         v-model="form.content"
         v-on:change="handleChange"

@@ -12,12 +12,17 @@ import {
 import { SidebarItem } from './sidebars';
 import { useSidebar } from '@/store';
 import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+const route = useRoute();
+const sidebar = useSidebar();
 
 const items = [
   {
     key: 'Home',
     icon: AllNoteIcon,
-    label: 'All Notes',
+    label: t('page.home'),
     to: {
       name: 'Home',
     },
@@ -25,7 +30,7 @@ const items = [
   {
     key: 'Favorite',
     icon: FavoriteIcon,
-    label: 'Favorite',
+    label: t('page.favorite'),
     to: {
       name: 'Favorite',
     },
@@ -33,7 +38,7 @@ const items = [
   {
     key: 'Tag',
     icon: TagIcon,
-    label: 'Tags',
+    label: t('page.tags'),
     to: {
       name: 'Tag',
     },
@@ -41,15 +46,12 @@ const items = [
   {
     key: 'Trash',
     icon: TrashIcon,
-    label: 'Trash',
+    label: t('page.trash'),
     to: {
       name: 'Trash',
     },
   },
 ];
-
-const route = useRoute();
-const sidebar = useSidebar();
 
 const activeKey = computed(() => route.name);
 
@@ -108,7 +110,7 @@ watch(route, () => {
           <icon size="16">
             <profile-icon />
           </icon>
-          <span class="ml-3">Profile</span>
+          <span class="ml-3">{{ t('page.profile') }}</span>
         </router-link>
       </div>
     </div>

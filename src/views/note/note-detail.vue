@@ -24,10 +24,12 @@ import {
 import { noteHelper, redirectHelper } from '@/helpers';
 import { HandledError } from '@/interfaces';
 
+import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
 import { useToast } from '@/store';
 import { useFindNote, useUpdateNoteFavorite } from '@/compose/note';
 
+const { t } = useI18n();
 const router = useRouter();
 const route = useRoute();
 const toast = useToast();
@@ -49,8 +51,8 @@ const setNote = async () => {
   } catch (err) {
     if (!(err instanceof HandledError)) {
       errorState.visible = true;
-      errorState.title = 'Something Error';
-      errorState.text = 'Something error when displaying data';
+      errorState.title = t('error.client');
+      errorState.text = t('error.fetch-data');
     } else {
       errorState.visible = true;
       errorState.title = err.errors.name;
@@ -75,7 +77,7 @@ const handleClickFavorite = async () => {
 
     setNote();
   } catch (err) {
-    toast.show('Something Error');
+    toast.show(t('error.client'));
   }
 };
 const handleSuccessUpdateTrash = () => {

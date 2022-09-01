@@ -3,11 +3,15 @@ import { reactive, watch, onMounted } from 'vue';
 import { BaseForm, BaseButton } from '@/components/base';
 import { capitalize } from '@/utils';
 
+import { useI18n } from 'vue-i18n';
+
 const props = defineProps({
   modelValue: Object,
   validation: Object,
 });
 const emit = defineEmits(['update:modelValue', 'submit']);
+
+const { t } = useI18n();
 
 const colors = ['primary', 'dark', 'warning', 'danger', 'success', 'info'];
 const form = reactive({
@@ -46,14 +50,14 @@ watch(
 <template>
   <form v-on:submit.prevent="handleSubmit">
     <base-form
-      label="Name"
-      placeholder="Name"
+      :placeholder="t('form.placeholder.name')"
+      :label="t('form.label.name')"
       :color="validation?.name ? 'danger' : ''"
       :helper="validation?.name?.msg"
       v-model="form.name"
       v-on:change="handleChange"
     />
-    <base-form label="Color" class="mb-2">
+    <base-form :label="t('tag.form.label.color')" class="mb-2">
       <div class="space-x-2">
         <base-button
           v-for="color in colors"

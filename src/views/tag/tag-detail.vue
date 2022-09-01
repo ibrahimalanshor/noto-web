@@ -15,10 +15,12 @@ import { NoteItem } from '@/components/note';
 import { debounce } from '@/utils';
 import { HandledError } from '@/interfaces';
 
+import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
 import { useFindTag } from '@/compose/tag';
 import { useGetNote } from '@/compose/note';
 
+const { t } = useI18n();
 const router = useRouter();
 const route = useRoute();
 const { tag, loading: loadingFindTag, findTag } = useFindTag();
@@ -49,8 +51,8 @@ const setNote = async () => {
     await getNote();
   } catch (err) {
     errorState.visible = true;
-    errorState.title = 'Something Error';
-    errorState.text = 'Something error when displaying data';
+    errorState.title = t('error.client');
+    errorState.text = t('error.fetch-data');
   }
 };
 
@@ -63,8 +65,8 @@ const setTag = async () => {
   } catch (err) {
     if (!(err instanceof HandledError)) {
       errorState.visible = true;
-      errorState.title = 'Something Error';
-      errorState.text = 'Something error when displaying data';
+      errorState.title = t('error.client');
+      errorState.text = t('error.fetch-data');
     } else {
       errorState.visible = true;
       errorState.title = err.errors.name;
@@ -111,7 +113,7 @@ onMounted(() => {
     <div class="p-5 border-b">
       <header-menu
         class="mb-6"
-        create-label="New Note"
+        :create-label="t('note.create.title')"
         :filter="filterGetNote"
         v-on:search="handleSearch"
         v-on:filter="handleFilter"
@@ -127,7 +129,7 @@ onMounted(() => {
             </button>
           </router-link>
           <h1 class="font-bold text-3xl text-gray-900" v-if="tag">
-            Tags: {{ tag.name }}
+            {{ tag.name }}
           </h1>
         </div>
         <div class="flex space-x-2" v-if="tag">

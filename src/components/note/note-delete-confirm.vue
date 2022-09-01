@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue';
 import { BaseConfirm } from '@/components/base';
 
+import { useI18n } from 'vue-i18n';
 import { useToast } from '@/store';
 import { useDeleteNote } from '@/compose/note';
 
@@ -17,6 +18,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:modelValue', 'success', 'close']);
 
+const { t } = useI18n();
 const toast = useToast();
 const { loading, deleteNote } = useDeleteNote();
 
@@ -35,7 +37,7 @@ const handleConfirm = async () => {
 
     emit('success');
   } catch (err) {
-    toast.show('Something Error');
+    toast.show(t('error.client'));
   } finally {
     close();
   }
@@ -54,7 +56,7 @@ watch(
 
 <template>
   <base-confirm
-    text="Are you sure you want to delete this note?"
+    :text="t('action.ask-confirm', { name: 'note' })"
     v-model="visible"
     :confirm-disabled="loading"
     :confirm-loading="loading"

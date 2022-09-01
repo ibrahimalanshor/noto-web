@@ -3,10 +3,12 @@ import { ref, watch, onMounted } from 'vue';
 import { BaseSelectSearch } from '@/components/base';
 import { debounce } from '@/utils';
 
+import { useI18n } from 'vue-i18n';
 import { useGetTag } from '@/compose/tag';
 
 const props = defineProps({
   modelValue: null,
+  placeholder: String,
   color: {
     type: String,
     default: 'default',
@@ -14,6 +16,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:modelValue', 'change', 'error']);
 
+const { t } = useI18n();
 const { tag, loading, filter, getTag } = useGetTag();
 
 const value = ref(props.modelValue);
@@ -24,7 +27,7 @@ const setTag = async () => {
 
     await getTag();
   } catch (err) {
-    emit('error', new Error('Something Error'));
+    emit('error', new Error(t('error.client')));
   }
 };
 const setTagDebounce = debounce(setTag);
@@ -56,7 +59,7 @@ onMounted(() => {
   <base-select-search
     :color="props.color"
     :options="tag.rows"
-    placeholder="Tags"
+    :placeholder="props.placeholder"
     v-on:open="handleOpen"
     v-on:search="handleSearch"
     v-on:change="handleChange"

@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue';
 import { BaseConfirm } from '@/components/base';
 
+import { useI18n } from 'vue-i18n';
 import { useClearTrashNote } from '@/compose/note';
 import { useToast } from '@/store';
 
@@ -17,6 +18,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:modelValue', 'close', 'success']);
 
+const { t } = useI18n();
 const toast = useToast();
 const { loading, clearTrash } = useClearTrashNote();
 
@@ -30,7 +32,7 @@ const handleConfirm = async () => {
 
     emit('success');
   } catch (err) {
-    toast.show('Something Error');
+    toast.show(t('error.client'));
   } finally {
     emit('update:modelValue', false);
   }

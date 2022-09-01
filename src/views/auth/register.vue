@@ -5,10 +5,12 @@ import { BaseForm, BaseButton, BaseAlert } from '@/components/base';
 
 import { HandledError } from '@/interfaces';
 
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useToast } from '@/store';
 import { useRegister } from '@/compose/auth';
 
+const { t } = useI18n();
 const router = useRouter();
 const toast = useToast();
 const { validation, credential, loading, register } = useRegister();
@@ -27,7 +29,7 @@ const handleSubmit = async () => {
     router.push({ name: 'Home' });
   } catch (err) {
     if (!(err instanceof HandledError)) {
-      toast.show('Something Error');
+      toast.show(t('error.client'));
     } else if (err.errors.status === 401) {
       alert.visible = true;
       alert.text = err.errors.message;
@@ -37,35 +39,35 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <layout-auth title="Create your Free Account">
+  <layout-auth :title="t('auth.register.title')">
     <base-alert color="danger" :text="alert.text" v-model="alert.visible" />
     <form v-on:submit.prevent="handleSubmit">
       <base-form
-        label="Name"
-        placeholder="Name"
+        :label="t('form.label.name')"
+        :placeholder="t('form.placeholder.name')"
         :color="validation?.name ? 'danger' : ''"
         :helper="validation?.name?.msg"
         v-model="credential.name"
       />
       <base-form
-        label="Email"
-        placeholder="Email"
+        :label="t('form.label.email')"
+        :placeholder="t('form.placeholder.email')"
         type="email"
         :color="validation?.email ? 'danger' : ''"
         :helper="validation?.email?.msg"
         v-model="credential.email"
       />
       <base-form
-        label="Password"
-        placeholder="Password"
+        :label="t('form.label.password')"
+        :placeholder="t('form.placeholder.password')"
         type="Password"
         :color="validation?.password ? 'danger' : ''"
         :helper="validation?.password?.msg"
         v-model="credential.password"
       />
       <base-form
-        label="Password Confirmation"
-        placeholder="Password Confirmation"
+        :label="t('form.label.password-confirmation')"
+        :placeholder="t('form.placeholder.password-confirmation')"
         type="password"
         :color="validation?.password_confirmation ? 'danger' : ''"
         :helper="validation?.password_confirmation?.msg"
@@ -73,7 +75,7 @@ const handleSubmit = async () => {
       />
       <base-button
         type="submit"
-        label="Sign Up"
+        :label="t('auth.register.action.submit')"
         class="mb-4"
         block
         :disabled="loading"
@@ -82,11 +84,11 @@ const handleSubmit = async () => {
       <p
         class="text-center text-sm font-light text-gray-500 dark:text-gray-400"
       >
-        Already have an account?
+        {{ t('auth.register.text.already-have-account') }}
         <router-link
           :to="{ name: 'Login' }"
           class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-          >Sign in here</router-link
+          >{{ t('auth.register.text.redirect-login') }}</router-link
         >
       </p>
     </form>

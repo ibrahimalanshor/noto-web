@@ -4,23 +4,16 @@ import { Icon } from '@vicons/utils';
 import { Warning as WarningIcon, Close as CloseIcon } from '@vicons/carbon';
 import BaseButton from './base-button.vue';
 
+import { useI18n } from 'vue-i18n';
+
 const props = defineProps({
   modelValue: {
     type: Boolean,
     default: false,
   },
-  text: {
-    type: String,
-    default: 'Are you sure you want to delete this product?',
-  },
-  confirmText: {
-    type: String,
-    default: "Yes, I'm sure",
-  },
-  cancelText: {
-    type: String,
-    default: 'No, cancel',
-  },
+  text: String,
+  confirmText: String,
+  cancelText: String,
   confirmColor: {
     type: String,
     default: 'danger',
@@ -35,6 +28,8 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(['update:modelValue', 'close', 'confirm']);
+
+const { t } = useI18n();
 
 const visible = ref(props.modelValue);
 
@@ -90,14 +85,14 @@ watch(
               <h3
                 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400"
               >
-                {{ props.text }}
+                {{ props.text || t('action.ask-confirm') }}
               </h3>
             </slot>
             <div class="space-x-2">
               <slot name="confirm">
                 <base-button
                   :color="props.confirmColor"
-                  :label="props.confirmText"
+                  :label="props.confirmText || t('action.confirm')"
                   v-on:click="handleConfirm"
                   :disabled="props.confirmDisabled"
                   :loading="props.confirmLoading"
@@ -106,7 +101,7 @@ watch(
               <slot name="cancel">
                 <base-button
                   color="light"
-                  :label="props.cancelText"
+                  :label="props.cancelText || t('action.cancel')"
                   v-on:click="handleClose"
                 />
               </slot>

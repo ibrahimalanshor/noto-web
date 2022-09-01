@@ -8,12 +8,14 @@ import { NoteForm } from '@/components/note';
 
 import { redirectHelper } from '@/helpers';
 
+import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
 import { useToast } from '@/store';
 import { useCreateNote } from '@/compose/note';
 import { useFindTag } from '@/compose/tag';
 import { HandledError } from '@/interfaces';
 
+const { t } = useI18n();
 const router = useRouter();
 const route = useRoute();
 const toast = useToast();
@@ -46,7 +48,7 @@ const handleSubmit = async () => {
   } catch (err) {
     if (!(err instanceof HandledError)) {
       alert.visible = true;
-      alert.text = 'Something Error';
+      alert.text = t('error.client');
     }
   }
 };
@@ -69,7 +71,7 @@ onMounted(() => {
           <back-icon />
         </icon>
       </button>
-      <h1 class="font-bold text-2xl">New Note</h1>
+      <h1 class="font-bold text-2xl">{{ t('note.create.title') }}</h1>
     </div>
     <div class="p-5">
       <base-alert
@@ -81,12 +83,12 @@ onMounted(() => {
       <form v-on:submit.prevent="handleSubmit">
         <note-form v-model="body" :validation="validation" />
         <div class="space-x-2">
-          <base-button color="light" v-on:click="handleClickBack"
-            >Cancel</base-button
-          >
-          <base-button type="submit" :loading="loading" :disabled="loading"
-            >Save</base-button
-          >
+          <base-button color="light" v-on:click="handleClickBack">{{
+            t('action.cancel')
+          }}</base-button>
+          <base-button type="submit" :loading="loading" :disabled="loading">{{
+            t('action.save')
+          }}</base-button>
         </div>
       </form>
     </div>

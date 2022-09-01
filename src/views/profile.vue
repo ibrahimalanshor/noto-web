@@ -12,9 +12,11 @@ import {
 import { ProfileLogoutConfirm } from '@/components/profile';
 import { HandledError } from '@/interfaces';
 
+import { useI18n } from 'vue-i18n';
 import { useToast } from '@/store';
 import { useGetProfile, useUpdateProfile } from '@/compose/profile';
 
+const { t } = useI18n();
 const toast = useToast();
 const { loading: profileGetLoading, profile, getProfile } = useGetProfile();
 const {
@@ -39,8 +41,8 @@ const setProfile = async () => {
     setBody(profile.value);
   } catch (err) {
     errorState.visible = true;
-    errorState.title = 'Something Error';
-    errorState.text = 'Something error when displaying data';
+    errorState.title = t('error.client');
+    errorState.text = t('error.fetch-data');
   }
 };
 
@@ -51,7 +53,7 @@ const handleSubmit = async () => {
     toast.show(res.message, 'success');
   } catch (err) {
     if (!(err instanceof HandledError)) {
-      toast.show('Something Error');
+      toast.show(t('error.client'));
     }
   }
 };
@@ -79,11 +81,13 @@ onMounted(() => {
               </icon>
             </button>
           </router-link>
-          <h1 class="font-bold text-3xl text-gray-900">Profile</h1>
+          <h1 class="font-bold text-3xl text-gray-900">
+            {{ t('profile.title') }}
+          </h1>
         </div>
         <base-button
           color="danger"
-          label="Logout"
+          :label="t('profile.action.logout.title')"
           v-on:click="handleClickLogout"
         />
       </div>
@@ -99,31 +103,29 @@ onMounted(() => {
 
         <form v-on:submit.prevent="handleSubmit" v-else>
           <base-form
-            label="Name"
-            placeholder="Name"
+            :label="t('form.label.name')"
+            :placeholder="t('form.placeholder.name')"
             :color="validation?.name ? 'danger' : ''"
             :helper="validation?.name?.msg"
             v-model="body.name"
           />
           <base-form
-            type="email"
-            label="Email"
-            placeholder="Email"
+            :label="t('form.label.email')"
+            :placeholder="t('form.placeholder.email')"
             v-model="profile.email"
             disabled
           />
           <base-form
-            type="password"
-            label="Password"
-            placeholder="Password"
+            :label="t('form.label.password')"
+            :placeholder="t('form.placeholder.password')"
             :color="validation?.password ? 'danger' : ''"
             :helper="validation?.password?.msg"
             v-model="body.password"
           />
           <base-form
             type="password"
-            label="Password Confirmation"
-            placeholder="Password Confirmation"
+            :label="t('form.label.password-confirmation')"
+            :placeholder="t('form.placeholder.password-confirmation')"
             :color="validation?.password_confirmation ? 'danger' : ''"
             :helper="validation?.password_confirmation?.msg"
             v-model="body.password_confirmation"
@@ -133,7 +135,7 @@ onMounted(() => {
             type="submit"
             :disabled="profileUpdateLoading"
             :loading="profileUpdateLoading"
-            >Save</base-button
+            >{{ t('action.save') }}</base-button
           >
         </form>
       </template>

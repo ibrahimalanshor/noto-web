@@ -9,10 +9,14 @@ import {
 import { Icon } from '@vicons/utils';
 import { Filter as FilterIcon } from '@vicons/carbon';
 
+import { useI18n } from 'vue-i18n';
+
 const props = defineProps({
   filter: Object,
 });
 const emit = defineEmits(['change', 'reset']);
+
+const { t } = useI18n();
 
 const filter = reactive({
   sort: props.filter?.sort ?? null,
@@ -23,17 +27,17 @@ const sortOptions = [
   {
     key: 'all',
     value: null,
-    label: 'All',
+    label: t('filter.sort.all'),
   },
   {
     key: 'createdAt',
     value: 'id',
-    label: 'Created',
+    label: t('filter.sort.created'),
   },
   {
     key: 'name',
     value: 'name',
-    label: 'Name',
+    label: t('filter.sort.name'),
   },
 ];
 
@@ -41,17 +45,17 @@ const orderOptions = [
   {
     key: 'all',
     value: null,
-    label: 'All',
+    label: t('filter.order.all'),
   },
   {
     key: 'asc',
     value: 'asc',
-    label: 'ASC',
+    label: t('filter.order.asc'),
   },
   {
     key: 'desc',
     value: 'desc',
-    label: 'DESC',
+    label: t('filter.order.desc'),
   },
 ];
 
@@ -127,7 +131,7 @@ watch(
           </li>
           <li class="block py-2 px-4">
             <base-button
-              label="Reset"
+              :label="t('filter.reset')"
               color="danger"
               size="sm"
               block

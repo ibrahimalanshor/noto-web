@@ -7,9 +7,11 @@ import { BaseButton, BaseState, BaseSkeleton } from '@/components/base';
 import { TrashDeleteConfirm } from '@/components/trash';
 import { debounce } from '@/utils';
 
+import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
 import { useGetNote } from '@/compose/note';
 
+const { t } = useI18n();
 const router = useRouter();
 const route = useRoute();
 const { note, loading, filter, getNote } = useGetNote();
@@ -32,8 +34,8 @@ const setNote = async () => {
     await getNote();
   } catch (err) {
     errorState.visible = true;
-    errorState.title = 'Something Error';
-    errorState.text = 'Something error when displaying data';
+    errorState.title = t('error.client');
+    errorState.text = t('error.fetch-data');
   }
 };
 const setNoteDebounce = debounce(setNote);
@@ -60,16 +62,17 @@ onMounted(() => {
     <div class="p-5 border-b">
       <header-menu
         class="mb-6"
-        search-placeholder="Search in Trash"
         v-on:search="handleSearch"
         :filterable="false"
         :creatable="false"
       />
       <div class="flex items-center justify-between">
-        <h1 class="font-bold text-3xl text-gray-900">Trash</h1>
+        <h1 class="font-bold text-3xl text-gray-900">
+          {{ t('note.trash.title') }}
+        </h1>
         <base-button
           color="danger"
-          label="Delete All"
+          :label="t('note.trash.action.delete')"
           v-on:click="handleDeleteAll"
           v-if="note.count !== 0"
         />
@@ -100,7 +103,7 @@ onMounted(() => {
       </template>
     </div>
     <trash-delete-confirm
-      text="Are you sure you want to delete all trash?"
+      :text="t('note.trash.action.ask-delete')"
       v-on:success="handleSuccessDelete"
       v-model="trashDeleteConfirmVisible"
     />
