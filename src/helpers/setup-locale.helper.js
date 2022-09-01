@@ -4,14 +4,14 @@ export default async (i18n) => {
   const supportedLocales = ['en'];
 
   // set locale by browser locale
-  let locale = 'en';
+  let locale = window.navigator.language;
 
   if (!supportedLocales.includes(locale)) {
     locale = 'en';
   }
 
   if (!i18n.global.availableLocales.includes(locale)) {
-    const messages = await import(`./${locale}.json`);
+    const messages = await import(`../locales/${locale}.json`);
 
     i18n.global.setLocaleMessage(locale, messages.default);
   }
