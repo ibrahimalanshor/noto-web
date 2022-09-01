@@ -4,10 +4,12 @@ import { LayoutAuth } from '@/layouts';
 import { BaseForm, BaseButton, BaseAlert } from '@/components/base';
 import { HandledError } from '@/interfaces';
 
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useToast } from '@/store';
 import { useLogin } from '@/compose/auth';
 
+const { t } = useI18n();
 const router = useRouter();
 const toast = useToast();
 const { validation, credential, loading, login } = useLogin();
@@ -36,7 +38,7 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <layout-auth title="Sign in to your account">
+  <layout-auth :title="t('message.hello', { name: 'sukri' })">
     <base-alert color="danger" :text="alert.text" v-model="alert.visible" />
     <form v-on:submit.prevent="handleSubmit">
       <base-form
