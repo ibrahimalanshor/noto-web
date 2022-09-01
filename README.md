@@ -2,7 +2,7 @@
 
 - [x] Setup
 - [x] Prototype
-- [ ] Dev
-- [ ] Integrate
-- [ ] Test
-- [ ] Publish
+- [x] Dev
+- [x] Integrate
+- [x] Test
+- [x] Publish
